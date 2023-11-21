@@ -1,5 +1,5 @@
-#ifndef FUNCTIONS
-#define FUNCTIONS
+#ifndef clib
+#define clib
 
 /* 
  * Checks if char is a digit

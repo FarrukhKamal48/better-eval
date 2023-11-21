@@ -1,9 +1,10 @@
 #include <stdio.h>
 #include "source/Lexer.h"
+#include "lib/debug.h"
 
-void Tokanize(Lexer *lexer, Token *TokenStream, int len) {
-    int i = 0;
+void Tokanize (Lexer *lexer, Token *TokenStream, int len, int *streamEnd) {
     Token CurrToken = lexer_next_token(lexer);
+    int i = 0;
     while ((CurrToken.type != TokenType_EOF & CurrToken.type != TokenType_ERROR) & (i < len)) {
         TokenStream[i] = CurrToken;
         CurrToken = lexer_next_token(lexer);
@@ -11,6 +12,8 @@ void Tokanize(Lexer *lexer, Token *TokenStream, int len) {
 
         i++;
     }
+    *streamEnd = i;
+
     printf("Tokens: %d\n", i);
 }
 
@@ -31,9 +34,13 @@ int main(int argc, char *argv[])
 
     // final tokanized list
     Token TokenStream[10000];
+    int streamEnd;
 
     // Populate the token stream
-    Tokanize(&lexer, TokenStream, sizeof(TokenStream)/sizeof(TokenStream[0]));
+    Tokanize(&lexer, TokenStream, sizeof(TokenStream)/sizeof(TokenStream[0]), &streamEnd);
+
+    // print the lexemes of all the tokens
+    lexer_print_lexemes(TokenStream, streamEnd);
 
     return 0;
 }

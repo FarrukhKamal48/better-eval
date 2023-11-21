@@ -32,7 +32,7 @@ Token lexer_number_token (Lexer *lexer) {
 Token lexer_next_token (Lexer *lexer) {
     lexer->start = lexer->current;
 
-    while (isWhitspace(*lexer->current) && *lexer->current == '\0') {
+    while (isWhitspace(*lexer->current) && *lexer->current != '\0') {
         lexer->current++;
         lexer->start = lexer->current;
     }
