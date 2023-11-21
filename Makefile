@@ -2,9 +2,10 @@ CC = gcc
 CFLAGS = -lm
 
 SRC_DIR = source
+LIB_DIR = lib
 BUILD_DIR = build
 OUTPUT = Eval
-CFILES = $(wildcard $(SRC_DIR)/*.c) $(wildcard *.c)
+CFILES = $(wildcard *.c) $(wildcard $(SRC_DIR)/*.c) $(wildcard $(LIB_DIR)/*.c)
 
 all: build
 	gcc -o $(BUILD_DIR)/$(OUTPUT) $(CFLAGS) $(CFILES)
