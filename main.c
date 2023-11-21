@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
     char exp[100];
 
     // get the expresion
-    printf(">> ");
+    printf("\n>> ");
     fgets(exp, 100, stdin);
 
     // initialize lexer
