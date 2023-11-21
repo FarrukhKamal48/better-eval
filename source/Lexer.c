@@ -2,18 +2,6 @@
 #include "../lib/clib.h"
 
 /* 
- * Checks if char is a digit
-*/
-unsigned short int isDigit(char a) {
-    switch (a) {
-        case '0': case '1': case '2': case '3': case '4':
-        case '5': case '6': case '7': case '8': case '9': return 1;
-
-        default: return 0;
-    }
-}
-
-/* 
  * Makes a token, using lexer span as a lexeme and type as the tokentype
 */
 Token lexer_make_token (Lexer *lexer, TokenType type) {
@@ -44,7 +32,7 @@ Token lexer_number_token (Lexer *lexer) {
 Token lexer_next_token (Lexer *lexer) {
     lexer->start = lexer->current;
 
-    while (isWhitspace(*lexer->current)) {
+    while (isWhitspace(*lexer->current) && *lexer->current == '\0') {
         lexer->current++;
         lexer->start = lexer->current;
     }

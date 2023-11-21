@@ -33,11 +33,6 @@ typedef struct Lexer {
 
 
 /* 
- * Checks if char is a digit
-*/
-unsigned short int isDigit(char a); 
-
-/* 
  * Makes a token, using lexer span as a lexeme and type as the tokentype
 */
 Token lexer_make_token (Lexer *lexer, TokenType type); 
