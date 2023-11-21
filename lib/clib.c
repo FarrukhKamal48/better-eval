@@ -1,4 +1,4 @@
-#include "Functions.h"
+#include "clib.h"
 
 /* 
  * Checks if char is a digit
