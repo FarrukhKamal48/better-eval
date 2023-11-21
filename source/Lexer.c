@@ -1,4 +1,5 @@
 #include "Lexer.h"
+#include "../lib/clib.h"
 
 /* 
  * Checks if char is a digit
@@ -42,6 +43,11 @@ Token lexer_number_token (Lexer *lexer) {
 */
 Token lexer_next_token (Lexer *lexer) {
     lexer->start = lexer->current;
+
+    while (isWhitspace(*lexer->current)) {
+        lexer->current++;
+        lexer->start = lexer->current;
+    }
 
     if (*lexer->current == '\0') 
         return lexer_make_token(lexer, TokenType_EOF);
