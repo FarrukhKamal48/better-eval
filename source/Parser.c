@@ -27,6 +27,33 @@ Node *parser_parse_number(Parser *parser) {
     return ret;
 }
 
+Node *parser_parse_terminal_expr(Parser *parser) {
+    Node *ret;
+    if (parser->curr.type == TokenType_Num) {
+        return parser_parse_number(parser);
+    }
+    else if (parser->curr.type == TokenType_OpenParen) {
+        parser_advance(parser);
+        ret = parser_parse_expression(parser, Precedence_Min);
+        if (parser->curr.type == TokenType_CloseParen) {
+            parser_advance(parser);
+        }
+    }
+    else if (parser->curr.type == TokenType_Plus) {
+        parser_advance(parser);
+        ret = malloc(sizeof(Node));
+        ret->type = NodeType_Positive;
+        ret->unaray.operand = parser_parse_number(parser);
+    }
+    else if (parser->curr.type == TokenType_Minus) {
+        parser_advance(parser);
+        ret = malloc(sizeof(Node));
+        ret->type = NodeType_Negative;
+        ret->unaray.operand = parser_parse_number(parser);
+    }
+    return ret;
+}
+
 Node *parser_build_right_node(Parser *parser, Token operater, Node *left) {
     Node *ret = malloc(sizeof(Node));
     switch (operater.type) {

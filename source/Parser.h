@@ -12,6 +12,9 @@ enum {
     NodeType_Add,
     NodeType_Sub,
 
+    NodeType_Positive,
+    NodeType_Negative,
+
     NodeType_Error,
 };
 
