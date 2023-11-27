@@ -1,6 +1,15 @@
 #include "Lexer.h"
 #include "../lib/clib.h"
 
+
+/*
+*   Initialize the lexer
+*/
+void lexer_init(Lexer *lexer, string expresssion) {
+    lexer->start = expresssion.str;
+    lexer->current = expresssion.str;
+};
+
 /* 
  * Makes a token, using lexer span as a lexeme and type as the tokentype
 */
@@ -41,6 +50,7 @@ Token lexer_next_token (Lexer *lexer) {
         return lexer_make_token(lexer, TokenType_EOF);
 
     switch (*lexer->current) {
+        case '^': lexer->current++; return lexer_make_token(lexer, TokenType_Carret); 
         case '/': lexer->current++; return lexer_make_token(lexer, TokenType_Slash); 
         case '*': lexer->current++; return lexer_make_token(lexer, TokenType_Star); 
         case '+': lexer->current++; return lexer_make_token(lexer, TokenType_Plus); 

@@ -3,6 +3,7 @@
 
 typedef int TokenType;
 enum {
+    TokenType_Carret,
     TokenType_Slash,
     TokenType_Star,
     TokenType_Plus,
@@ -31,6 +32,10 @@ typedef struct Lexer {
 
 // functions
 
+/*
+*   Initialize the lexer
+*/
+void lexer_init(Lexer *lexer, string expresssion);
 
 /* 
  * Makes a token, using lexer span as a lexeme and type as the tokentype
@@ -46,6 +51,5 @@ Token lexer_number_token (Lexer *lexer);
  * Gives the next token
 */
 Token lexer_next_token (Lexer *lexer);
-
 
 #endif
