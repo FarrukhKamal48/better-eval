@@ -11,6 +11,9 @@ enum {
 
     TokenType_Num,
 
+    TokenType_OpenParen,
+    TokenType_CloseParen,
+
     TokenType_EOF,
     TokenType_ERROR
 };
