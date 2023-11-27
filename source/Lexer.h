@@ -32,24 +32,14 @@ typedef struct Lexer {
 
 // functions
 
-/*
-*   Initialize the lexer
-*/
 void lexer_init(Lexer *lexer, string expresssion);
 
-/* 
- * Makes a token, using lexer span as a lexeme and type as the tokentype
-*/
 Token lexer_make_token (Lexer *lexer, TokenType type); 
 
-/* 
- * Makes a number token, following the current span
-*/
 Token lexer_number_token (Lexer *lexer);
 
-/* 
- * Gives the next token
-*/
 Token lexer_next_token (Lexer *lexer);
+
+float lexeme_to_number (string lexeme);
 
 #endif
