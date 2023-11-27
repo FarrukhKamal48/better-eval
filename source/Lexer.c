@@ -2,17 +2,11 @@
 #include "../lib/clib.h"
 
 
-/*
-*   Initialize the lexer
-*/
 void lexer_init(Lexer *lexer, string expresssion) {
     lexer->start = expresssion.str;
     lexer->current = expresssion.str;
 };
 
-/* 
- * Makes a token, using lexer span as a lexeme and type as the tokentype
-*/
 Token lexer_make_token (Lexer *lexer, TokenType type) {
     Token newToken = (Token) {
         .type = type,
@@ -25,9 +19,6 @@ Token lexer_make_token (Lexer *lexer, TokenType type) {
     return newToken;
 }
 
-/* 
- * Makes a number token, following the current span
-*/
 Token lexer_number_token (Lexer *lexer) {
     while (isDigit(*lexer->current) | (*lexer->current == '.')) {
         lexer->current += 1;
@@ -35,9 +26,6 @@ Token lexer_number_token (Lexer *lexer) {
     return lexer_make_token(lexer, TokenType_Num);
 }
 
-/* 
- * Gives the next token
-*/
 Token lexer_next_token (Lexer *lexer) {
     lexer->start = lexer->current;
 
@@ -50,7 +38,7 @@ Token lexer_next_token (Lexer *lexer) {
         return lexer_make_token(lexer, TokenType_EOF);
 
     switch (*lexer->current) {
-        case '^': lexer->current++; return lexer_make_token(lexer, TokenType_Carret); 
+        case '^': lexer->current++; return lexer_make_token(lexer, TokenType_Caret); 
         case '/': lexer->current++; return lexer_make_token(lexer, TokenType_Slash); 
         case '*': lexer->current++; return lexer_make_token(lexer, TokenType_Star); 
         case '+': lexer->current++; return lexer_make_token(lexer, TokenType_Plus); 
