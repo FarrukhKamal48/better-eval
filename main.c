@@ -1,46 +1,26 @@
 #include <stdio.h>
-#include "source/Lexer.h"
-#include "lib/debug.h"
+#include <stdlib.h>
+#include <string.h>
+#include "source/eval.h"
 
-void Tokanize (Lexer *lexer, Token *TokenStream, int len, int *streamEnd) {
-    Token CurrToken = lexer_next_token(lexer);
-    int i = 0;
-    while ((CurrToken.type != TokenType_EOF & CurrToken.type != TokenType_ERROR) & (i < len)) {
-        TokenStream[i] = CurrToken;
-        CurrToken = lexer_next_token(lexer);
-        printf("    Start: %c, Len: %d, Type: %d, Size: %lu\n", *TokenStream[i].lexeme.str, TokenStream[i].lexeme.size, TokenStream[i].type, sizeof(TokenStream[0]));
-
-        i++;
-    }
-    *streamEnd = i;
-
-    printf("Tokens: %d\n", i);
-}
 
 int main(int argc, char *argv[])
 {
-    // origional expression
-    char exp[100];
-
-    // get the expresion
-    printf("\n>> ");
-    fgets(exp, 100, stdin);
-
-    // initialize lexer
-    Lexer lexer = (Lexer) {
-        .start = exp,
-        .current = exp,
+    string expression = (string) {
+        .str = argv[1],
+        .size = strlen(argv[1])
     };
 
-    // final tokanized list
-    Token TokenStream[10000];
-    int streamEnd;
+    // printf("%s\n", expression.str);
 
-    // Populate the token stream
-    Tokanize(&lexer, TokenStream, sizeof(TokenStream)/sizeof(TokenStream[0]), &streamEnd);
+    Parser parser;
+    parser_init(&parser, expression);
+    Node *tree = parser_parse_expression(&parser, Precedence_Min);
+    float answer = evaluate(tree);
 
-    // print the lexemes of all the tokens
-    lexer_print_lexemes(TokenStream, streamEnd);
+    free(tree);
+
+    printf("%f\n", answer);
 
     return 0;
 }

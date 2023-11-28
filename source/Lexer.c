@@ -1,10 +1,17 @@
 #include "Lexer.h"
 #include "../lib/clib.h"
+#include <stdio.h>
 
 
 void lexer_init(Lexer *lexer, string expresssion) {
     lexer->start = expresssion.str;
     lexer->current = expresssion.str;
+};
+
+void lexer_print_token(Token token) {
+    for (int i; i < token.lexeme.size; i++) {
+        printf("%c", token.lexeme.str[i]);
+    }
 };
 
 Token lexer_make_token (Lexer *lexer, TokenType type) {

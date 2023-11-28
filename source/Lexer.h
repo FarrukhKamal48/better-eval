@@ -15,7 +15,8 @@ enum {
     TokenType_CloseParen,
 
     TokenType_EOF,
-    TokenType_ERROR
+    TokenType_ERROR,
+    TokenType_MAX,
 };
 
 typedef struct string {
@@ -36,6 +37,8 @@ typedef struct Lexer {
 // functions
 
 void lexer_init(Lexer *lexer, string expresssion);
+
+void lexer_print_token(Token token);
 
 Token lexer_make_token (Lexer *lexer, TokenType type); 
 

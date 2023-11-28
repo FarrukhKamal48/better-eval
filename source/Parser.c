@@ -13,10 +13,12 @@ static Precedence Precedence_Lookup[5] = {
 void parser_init(Parser *parser, string expresssion) {
     parser->curr = (Token) {0};
     lexer_init(&parser->lexer, expresssion);
+    parser_advance(parser);
 };
 
 void parser_advance(Parser *parser) {
     parser->curr = lexer_next_token(&parser->lexer);
+    lexer_print_token(parser->curr);
 }
 
 Node *parser_parse_number(Parser *parser) {
@@ -43,13 +45,13 @@ Node *parser_parse_terminal_expr(Parser *parser) {
         parser_advance(parser);
         ret = malloc(sizeof(Node));
         ret->type = NodeType_Positive;
-        ret->unaray.operand = parser_parse_number(parser);
+        ret->unaray.operand = parser_parse_terminal_expr(parser);
     }
     else if (parser->curr.type == TokenType_Minus) {
         parser_advance(parser);
         ret = malloc(sizeof(Node));
         ret->type = NodeType_Negative;
-        ret->unaray.operand = parser_parse_number(parser);
+        ret->unaray.operand = parser_parse_terminal_expr(parser);
     }
     return ret;
 }
@@ -57,11 +59,11 @@ Node *parser_parse_terminal_expr(Parser *parser) {
 Node *parser_build_right_node(Parser *parser, Token operater, Node *left) {
     Node *ret = malloc(sizeof(Node));
     switch (operater.type) {
-        case TokenType_Caret: ret->type = NodeType_Pow;
-        case TokenType_Slash: ret->type = NodeType_Div;
-        case TokenType_Star: ret->type = NodeType_Mul;
-        case TokenType_Plus: ret->type = NodeType_Add;
-        case TokenType_Minus: ret->type = NodeType_Sub;
+        case TokenType_Caret: ret->type = NodeType_Pow; break;
+        case TokenType_Slash: ret->type = NodeType_Div; break;
+        case TokenType_Star:  ret->type = NodeType_Mul; break;
+        case TokenType_Plus:  ret->type = NodeType_Add; break;
+        case TokenType_Minus: ret->type = NodeType_Sub; break;
     }
     ret->binary.left = left;
     ret->binary.right = parser_parse_expression(parser, Precedence_Lookup[operater.type]);
