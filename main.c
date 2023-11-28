@@ -1,7 +1,6 @@
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
-#include "source/eval.h"
+#include "source/Lexer.h"
 
 
 int main(int argc, char *argv[])
@@ -10,17 +9,16 @@ int main(int argc, char *argv[])
         .str = argv[1],
         .size = strlen(argv[1])
     };
+    printf("%s\n", expression.str);
 
-    // printf("%s\n", expression.str);
+    Lexer lexer;
+    lexer_init(&lexer, expression);
 
-    Parser parser;
-    parser_init(&parser, expression);
-    Node *tree = parser_parse_expression(&parser, Precedence_Min);
-    float answer = evaluate(tree);
-
-    free(tree);
-
-    printf("%f\n", answer);
+    Token currToken = lexer_next_token(&lexer);
+    while (currToken.type != TokenType_EOF) {
+        lexer_print_token(currToken);
+        currToken = lexer_next_token(&lexer);
+    }
 
     return 0;
 }

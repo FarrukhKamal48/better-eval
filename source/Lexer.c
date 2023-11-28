@@ -9,9 +9,15 @@ void lexer_init(Lexer *lexer, string expresssion) {
 };
 
 void lexer_print_token(Token token) {
-    for (int i; i < token.lexeme.size; i++) {
-        printf("%c", token.lexeme.str[i]);
+    int len = (token.lexeme.str + token.lexeme.size) - token.lexeme.str;
+    char str[len];
+    int i = 0;
+    while (i < len) {
+        str[i] = *(token.lexeme.str + i);
+        i++;
     }
+    str[len] = '\0';
+    printf("%s\n", str);
 };
 
 Token lexer_make_token (Lexer *lexer, TokenType type) {
