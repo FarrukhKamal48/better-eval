@@ -58,6 +58,9 @@ Token lexer_next_token (Lexer *lexer) {
         case '+': lexer->current++; return lexer_make_token(lexer, TokenType_Plus); 
         case '-': lexer->current++; return lexer_make_token(lexer, TokenType_Minus); 
 
+        case '(': lexer->current++; return lexer_make_token(lexer, TokenType_OpenParen); 
+        case ')': lexer->current++; return lexer_make_token(lexer, TokenType_CloseParen); 
+
         case '0': case '1': case '2': case '3': case '4':
         case '5': case '6': case '7': case '8': case '9': return lexer_number_token(lexer);
 
@@ -66,9 +69,9 @@ Token lexer_next_token (Lexer *lexer) {
 }
 
 float lexeme_to_number (string lexeme) {
-    float result;
+    float result = 0;
     for (int i = 0; i < lexeme.size; i++) {
-        result = result * 10 + (lexeme.str[i] - '0');
+        result = result * 10.0 + (float)(lexeme.str[i] - '0');
     }
     return result;
 };

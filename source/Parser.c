@@ -31,6 +31,33 @@ Node *parser_parse_number(Parser *parser) {
     return ret;
 }
 
+Node *parser_parse_terminal_expr(Parser *parser) {
+    Node *ret;
+    if (parser->curr.type == TokenType_Num) {
+        ret = parser_parse_number(parser);
+    }
+    else if (parser->curr.type == TokenType_OpenParen) {
+        parser_advance(parser);
+        ret = parser_parse_expression(parser, Precedence_MIN);
+        if (parser->curr.type == TokenType_CloseParen) {
+            parser_advance(parser);
+        }
+    }
+    else if (parser->curr.type == TokenType_Plus) {
+        parser_advance(parser);
+        ret = Alloc_Node();
+        ret->type = NodeType_Positive;
+        ret->unary.operand = parser_parse_terminal_expr(parser);
+    }
+    else if (parser->curr.type == TokenType_Minus) {
+        parser_advance(parser);
+        ret = Alloc_Node();
+        ret->type = NodeType_Negative;
+        ret->unary.operand = parser_parse_terminal_expr(parser);
+    }
+    return ret;
+}
+
 Node *parser_parse_inifix_expr(Parser *parser, Token operator, Node *left) {
     Node *ret = Alloc_Node();
     switch (operator.type) {
@@ -55,7 +82,7 @@ Node *parser_parse_inifix_expr(Parser *parser, Token operator, Node *left) {
 }
 
 Node *parser_parse_expression(Parser *parser, Precedence prev_operator_prec) {
-    Node *left = parser_parse_number(parser);
+    Node *left = parser_parse_terminal_expr(parser);
     Token curr_operator = parser->curr;
     Precedence cur_operator_prec = Precedence_Lookup[curr_operator.type];
 
@@ -74,11 +101,9 @@ Node *parser_parse_expression(Parser *parser, Precedence prev_operator_prec) {
 }
 
 Node *Alloc_Node() {
-    printf("\n Alocating Node, Size: %ld", sizeof(Node));
     Node *newNode = malloc(sizeof(Node));
     while (newNode == NULL) {
         Node *newNode = malloc(sizeof(Node));
-        printf("\n Failed, Re-Alocating Node, Size: %ld", sizeof(Node));
     }
     return newNode;
 }

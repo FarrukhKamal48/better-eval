@@ -12,6 +12,8 @@ enum {
     NodeType_Sub,
 
     NodeType_Num,
+    NodeType_Positive,
+    NodeType_Negative,
 };
 
 typedef int Precedence;
