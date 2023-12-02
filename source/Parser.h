@@ -39,6 +39,7 @@ typedef struct Parser {
 } Parser;
 
 
+Node *Alloc_Node();
 void Dealloc_Tree(Node *tree);
 void PrintNode (Node *tree);
 void PrintTree(Node *tree);

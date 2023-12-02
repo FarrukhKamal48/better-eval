@@ -24,7 +24,7 @@ void parser_init(Parser *parser, string expression) {
 }
 
 Node *parser_parse_number(Parser *parser) {
-    Node *ret = malloc(sizeof(Node));
+    Node *ret = Alloc_Node();
     ret->type = NodeType_Num;
     ret->number = lexeme_to_number(parser->curr.lexeme);
     parser_advance(parser);
@@ -32,7 +32,7 @@ Node *parser_parse_number(Parser *parser) {
 }
 
 Node *parser_parse_inifix_expr(Parser *parser, Token operator, Node *left) {
-    Node *ret = malloc(sizeof(Node));
+    Node *ret = Alloc_Node();
     switch (operator.type) {
         case TokenType_Plus:  ret->type = NodeType_Add; break;
         case TokenType_Minus: ret->type = NodeType_Sub; break;
@@ -42,6 +42,15 @@ Node *parser_parse_inifix_expr(Parser *parser, Token operator, Node *left) {
     }
     ret->binary.left = left;
     ret->binary.right = parser_parse_expression(parser, Precedence_Lookup[operator.type]);
+
+    printf("\nOperator: ");
+    PrintNode(ret);
+    printf("\nLeft: ");
+    PrintNode(ret->binary.left);
+    printf("\nRight: ");
+    PrintNode(ret->binary.right);
+    printf("\n");
+
     return ret;
 }
 
@@ -64,6 +73,16 @@ Node *parser_parse_expression(Parser *parser, Precedence prev_operator_prec) {
     return left;
 }
 
+Node *Alloc_Node() {
+    printf("\n Alocating Node, Size: %ld", sizeof(Node));
+    Node *newNode = malloc(sizeof(Node));
+    while (newNode == NULL) {
+        Node *newNode = malloc(sizeof(Node));
+        printf("\n Failed, Re-Alocating Node, Size: %ld", sizeof(Node));
+    }
+    return newNode;
+}
+
 void Dealloc_Tree(Node *tree) {
     if (tree->type == NodeType_Num) { 
         free(tree); 
@@ -80,7 +99,7 @@ void PrintNode (Node *tree) {
         case NodeType_Num:  printf("%f", tree->number); break;
         case NodeType_Pow:  printf("^"); break;
         case NodeType_Div:  printf("/"); break;
-        case NodeType_Mul: printf("*"); break;
+        case NodeType_Mul:  printf("*"); break;
         case NodeType_Add:  printf("+"); break;
         case NodeType_Sub:  printf("-"); break;
     }
