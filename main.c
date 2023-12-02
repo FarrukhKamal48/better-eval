@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "source/Eval.h"
 #include "source/Parser.h"
 
 int main(int argc, char *argv[])
@@ -44,6 +45,10 @@ int main(int argc, char *argv[])
     // PrintNode(tree.binary.right);
 
     PrintTree(&tree);
+
+    float answer = evaluate(&tree);
+    printf("\nAnswer\n: %f", answer);
+
     Dealloc_Tree(&tree);
 
     return 0;
