@@ -1,6 +1,7 @@
+#include <stdio.h>
+
 #include "Lexer.h"
 #include "../lib/clib.h"
-#include <stdio.h>
 
 
 void lexer_init(Lexer *lexer, string expresssion) {
@@ -66,7 +67,7 @@ Token lexer_next_token (Lexer *lexer) {
 
 float lexeme_to_number (string lexeme) {
     float result;
-    for (int i; i < lexeme.size; i++) {
+    for (int i = 0; i < lexeme.size; i++) {
         result = result * 10 + (lexeme.str[i] - '0');
     }
     return result;

@@ -14,6 +14,14 @@ enum {
     NodeType_Num,
 };
 
+typedef int Precedence;
+enum {
+    Precedence_MIN,
+    Precedence_Term,
+    Precedence_Factor,
+    Precedence_Power,
+};
+
 typedef struct Node Node ;
 struct Node {
     NodeType type;
@@ -25,9 +33,17 @@ struct Node {
     };
 };
 
-void Dealloc_Tree(Node *tree);
+typedef struct Parser {
+    Lexer lexer;
+    Token curr;
+} Parser;
 
+
+void Dealloc_Tree(Node *tree);
 void PrintNode (Node *tree);
 void PrintTree(Node *tree);
+
+void parser_init(Parser *parser, string expression);
+Node *parser_parse_expression(Parser *parser, Precedence prev_operator_prec);
 
 #endif

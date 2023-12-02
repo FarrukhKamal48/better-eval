@@ -1,4 +1,5 @@
 #include "clib.h"
+#include <string.h>
 
 /* 
  * Checks if char is a digit
@@ -22,3 +23,13 @@ unsigned short int isWhitspace(char a) {
         default: return 0;
     }
 }; 
+
+/*
+*   returns a string struct from string
+*/
+string strMake(char expr[]) {
+    return (string) {
+        .str = expr,
+        .size = strlen(expr)
+    };
+};
