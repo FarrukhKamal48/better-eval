@@ -18,7 +18,7 @@ void PrintNode (Node *tree) {
         case NodeType_Num:  printf("%f", tree->number); break;
         case NodeType_Pow:  printf("^"); break;
         case NodeType_Div:  printf("/"); break;
-        case NodeType_Mult: printf("*"); break;
+        case NodeType_Mul: printf("*"); break;
         case NodeType_Add:  printf("+"); break;
         case NodeType_Sub:  printf("-"); break;
     }

@@ -7,7 +7,7 @@ typedef int NodeType;
 enum {
     NodeType_Pow,
     NodeType_Div,
-    NodeType_Mult,
+    NodeType_Mul,
     NodeType_Add,
     NodeType_Sub,
 
