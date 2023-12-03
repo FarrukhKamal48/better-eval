@@ -2,7 +2,6 @@
 #include <stdlib.h>
 
 #include "Parser.h"
-#include "Lexer.h"
 
 
 static Precedence Precedence_Lookup[TokenType_MAX] = {
@@ -27,7 +26,7 @@ Node *parser_parse_number(Parser *parser) {
     Node *ret = Alloc_Node();
     ret->type = NodeType_Num;
     // ret->number = lexeme_to_number(parser->curr.lexeme);
-    ret->number = atof(parser->curr.lexeme.str);
+    ret->number = strtod(parser->curr.lexeme.str, NULL);
     parser_advance(parser);
     return ret;
 }
