@@ -5,8 +5,6 @@
 #include "source/Eval.h"
 #include "source/Parser.h"
 
-void Make_Tree(Node *tree);
-
 int main(int argc, char *argv[])
 {
     string expression = strMake(argv[1]);

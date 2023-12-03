@@ -1,6 +1,5 @@
 #include "../lib/clib.h"
 #include "Parser.h"
-#include "Lexer.h"
 
 
 static Precedence Precedence_Lookup[TokenType_MAX] = {
