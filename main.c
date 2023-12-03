@@ -14,6 +14,8 @@ int main(int argc, char *argv[])
     Parser parser;
     parser_init(&parser, expression);
     Node *tree = parser_parse_expression(&parser, Precedence_MIN);
+    parser_print_tree(tree, 0);
+
     float answer = evaluate(tree);
     printf("\nAnswer: %f\n", answer);
 

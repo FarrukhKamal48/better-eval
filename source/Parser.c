@@ -27,7 +27,7 @@ Node *parser_parse_number(Parser *parser) {
     ret->type = NodeType_Num;
     // ret->number = lexeme_to_number(parser->curr.lexeme);
     ret->number = strtod(parser->curr.lexeme.str, NULL);
-    printf("\nNumber: %f", ret->number);
+    printf("Number: %f\n", ret->number);
     parser_advance(parser);
     return ret;
 }
