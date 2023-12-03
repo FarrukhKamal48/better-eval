@@ -26,7 +26,8 @@ void parser_init(Parser *parser, string expression) {
 Node *parser_parse_number(Parser *parser) {
     Node *ret = Alloc_Node();
     ret->type = NodeType_Num;
-    ret->number = lexeme_to_number(parser->curr.lexeme);
+    // ret->number = lexeme_to_number(parser->curr.lexeme);
+    ret->number = atof(parser->curr.lexeme.str);
     parser_advance(parser);
     return ret;
 }
