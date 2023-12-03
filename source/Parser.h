@@ -14,6 +14,8 @@ enum {
     NodeType_Num,
     NodeType_Positive,
     NodeType_Negative,
+
+    NodeType_ERROR,
 };
 
 typedef int Precedence;
@@ -45,6 +47,7 @@ Node *Alloc_Node();
 void Dealloc_Tree(Node *tree);
 void PrintNode (Node *tree);
 void PrintTree(Node *tree);
+void parser_print_tree(Node *tree, int indent);
 
 void parser_init(Parser *parser, string expression);
 Node *parser_parse_expression(Parser *parser, Precedence prev_operator_prec);

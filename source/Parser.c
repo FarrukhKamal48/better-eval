@@ -27,12 +27,13 @@ Node *parser_parse_number(Parser *parser) {
     ret->type = NodeType_Num;
     // ret->number = lexeme_to_number(parser->curr.lexeme);
     ret->number = strtod(parser->curr.lexeme.str, NULL);
+    printf("\nNumber: %f", ret->number);
     parser_advance(parser);
     return ret;
 }
 
 Node *parser_parse_terminal_expr(Parser *parser) {
-    Node *ret;
+    Node *ret = 0;
     if (parser->curr.type == TokenType_Num) {
         ret = parser_parse_number(parser);
     }
@@ -54,6 +55,12 @@ Node *parser_parse_terminal_expr(Parser *parser) {
         ret = Alloc_Node();
         ret->type = NodeType_Negative;
         ret->unary.operand = parser_parse_terminal_expr(parser);
+        parser_advance(parser);
+    }
+    if (!ret) {
+        ret = Alloc_Node();
+        ret->type = NodeType_ERROR;
+        printf("\nERROR\n");
     }
     return ret;
 }
@@ -69,15 +76,6 @@ Node *parser_parse_inifix_expr(Parser *parser, Token operator, Node *left) {
     }
     ret->binary.left = left;
     ret->binary.right = parser_parse_expression(parser, Precedence_Lookup[operator.type]);
-
-    printf("\nOperator: ");
-    PrintNode(ret);
-    printf("\nLeft: ");
-    PrintNode(ret->binary.left);
-    printf("\nRight: ");
-    PrintNode(ret->binary.right);
-    printf("\n");
-
     return ret;
 }
 
@@ -142,4 +140,56 @@ void PrintTree(Node *tree) {
     PrintTree(tree->binary.right);
 
     printf("\n");
+}
+
+void parser_print_tree(Node *node, int indent) {
+    for (int i = 0; i < indent; i++) printf("  ");
+
+    switch (node->type) {
+        case NodeType_ERROR: printf("Error\n"); break;
+
+        case NodeType_Num: {
+          printf("%f\n", node->number);
+        } break;
+
+        case NodeType_Positive: {
+          printf("Unary +:\n");
+          parser_print_tree(node->unary.operand, indent + 1);
+        } break;
+
+        case NodeType_Negative: {
+          printf("Unary -:\n");
+          parser_print_tree(node->unary.operand, indent + 1);
+        } break;
+
+        case NodeType_Add: {
+          printf("+:\n");
+          parser_print_tree(node->binary.left, indent + 1);
+          parser_print_tree(node->binary.right, indent + 1);
+        } break;
+
+        case NodeType_Sub: {
+          printf("-:\n");
+          parser_print_tree(node->binary.left, indent + 1);
+          parser_print_tree(node->binary.right, indent + 1);
+        } break;
+
+        case NodeType_Mul: {
+          printf("*:\n");
+          parser_print_tree(node->binary.left, indent + 1);
+          parser_print_tree(node->binary.right, indent + 1);
+        } break;
+
+        case NodeType_Div: {
+          printf("/:\n");
+          parser_print_tree(node->binary.left, indent + 1);
+          parser_print_tree(node->binary.right, indent + 1);
+        } break;
+
+        case NodeType_Pow: {
+          printf("^:\n");
+          parser_print_tree(node->binary.left, indent + 1);
+          parser_print_tree(node->binary.right, indent + 1);
+        } break;
+    }
 }
