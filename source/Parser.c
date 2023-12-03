@@ -2,6 +2,7 @@
 #include <stdlib.h>
 
 #include "Parser.h"
+#include "Lexer.h"
 
 
 static Precedence Precedence_Lookup[TokenType_MAX] = {
@@ -55,13 +56,16 @@ Node *parser_parse_terminal_expr(Parser *parser) {
         ret = Alloc_Node();
         ret->type = NodeType_Negative;
         ret->unary.operand = parser_parse_terminal_expr(parser);
-        parser_advance(parser);
     }
-    if (!ret) {
-        ret = Alloc_Node();
-        ret->type = NodeType_ERROR;
-        printf("\nERROR\n");
+    
+    if (parser->curr.type == TokenType_Num || parser->curr.type == TokenType_OpenParen) {
+        Node *new_ret = Alloc_Node();
+        new_ret->type = NodeType_Mul;
+        new_ret->binary.left = ret;
+        new_ret->binary.right = parser_parse_expression(parser, Precedence_Lookup[Precedence_Factor]);
+        return new_ret;
     }
+
     return ret;
 }
 
