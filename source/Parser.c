@@ -117,31 +117,6 @@ void Dealloc_Tree(Node *tree) {
     free(tree);
 };
 
-void PrintNode (Node *tree) {
-    switch (tree->type) {
-        case NodeType_Num:  printf("%f", tree->number); break;
-        case NodeType_Pow:  printf("^"); break;
-        case NodeType_Div:  printf("/"); break;
-        case NodeType_Mul:  printf("*"); break;
-        case NodeType_Add:  printf("+"); break;
-        case NodeType_Sub:  printf("-"); break;
-    }
-}
-
-void PrintTree(Node *tree) {
-    printf("\n");
-    
-    if (tree->type == NodeType_Num) {
-        printf("%f\t", tree->number);
-        return;
-    }
-    PrintNode(tree);
-    PrintTree(tree->binary.left);
-    PrintTree(tree->binary.right);
-
-    printf("\n");
-}
-
 void parser_print_tree(Node *node, int indent) {
     for (int i = 0; i < indent; i++) printf("  ");
 
