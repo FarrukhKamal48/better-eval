@@ -1,12 +1,10 @@
 #ifndef DEBUG
 #define DEBUG
 
-#include "../source/Lexer.h"
+#include "../source/Parser.h"
 
-/*
-*   Prints the lexmes of all the tokens
-*/
-void lexer_print_lexemes (Token tokenStream[], int streamEnd);
+
+void parser_print_tree(Node *tree, int indent);
 
 #endif
 

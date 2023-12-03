@@ -34,18 +34,10 @@ typedef struct Lexer {
     char *current;
 } Lexer;
 
-// functions
 
 void lexer_init(Lexer *lexer, string expresssion);
-
-void lexer_print_token(Token token);
-
 Token lexer_make_token (Lexer *lexer, TokenType type); 
-
 Token lexer_number_token (Lexer *lexer);
-
 Token lexer_next_token (Lexer *lexer);
-
-float lexeme_to_number (string lexeme);
 
 #endif

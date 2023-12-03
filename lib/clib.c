@@ -1,9 +1,8 @@
-#include "clib.h"
 #include <string.h>
+#include <stdlib.h>
 
-/* 
- * Checks if char is a digit
-*/
+#include "clib.h"
+
 unsigned short int isDigit(char a) {
     switch (a) {
         case '0': case '1': case '2': case '3': case '4':
@@ -13,9 +12,6 @@ unsigned short int isDigit(char a) {
     }
 }
 
-/* 
- * Checks if char is whitespace
-*/
 unsigned short int isWhitspace(char a) {
     switch (a) {
         case ' ': case '\r': case '\t': case '\n': return 1; 
@@ -24,12 +20,32 @@ unsigned short int isWhitspace(char a) {
     }
 }; 
 
-/*
-*   returns a string struct from string
-*/
 string strMake(char expr[]) {
     return (string) {
         .str = expr,
         .size = strlen(expr)
     };
+};
+
+float lexeme_to_number (string lexeme) {
+    return strtod(lexeme.str, NULL);
+};
+
+Node *Alloc_Node() {
+    Node *newNode = malloc(sizeof(Node));
+    while (newNode == NULL) {
+        Node *newNode = malloc(sizeof(Node));
+    }
+    return newNode;
+}
+
+void Dealloc_Tree(Node *tree) {
+    if (tree->type == NodeType_Num) { 
+        free(tree); 
+        return;
+    }
+    
+    Dealloc_Tree(tree->binary.left);
+    Dealloc_Tree(tree->binary.right);
+    free(tree);
 };

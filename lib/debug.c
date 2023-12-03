@@ -1,31 +1,57 @@
 #include <stdio.h>
+
 #include "debug.h"
-#include "../source/Lexer.h"
 
-/*
-*   Prints the lexmes of all the tokens
-*/
-void lexer_print_lexemes (Token tokenStream[], int streamEnd) {
+void parser_print_tree(Node *node, int indent) {
+    if (indent == 0) printf("\n");
+    for (int i = 0; i < indent; i++) printf("  ");
 
-    int tokenNum = 0;
-    int charNum = 0;
+    switch (node->type) {
+        case NodeType_ERROR: printf("Error\n"); break;
 
-    int strlen = 0;
+        case NodeType_Num: {
+          printf("%f\n", node->number);
+        } break;
 
-    while (tokenNum < streamEnd) {
+        case NodeType_Positive: {
+          printf("Unary +:\n");
+          parser_print_tree(node->unary.operand, indent + 1);
+        } break;
 
-        strlen = (tokenStream[tokenNum].lexeme.str + tokenStream[tokenNum].lexeme.size) - tokenStream[tokenNum].lexeme.str;
-        char str[strlen];
+        case NodeType_Negative: {
+          printf("Unary -:\n");
+          parser_print_tree(node->unary.operand, indent + 1);
+        } break;
 
-        charNum = 0;
-        while (charNum < strlen) {
-            str[charNum] = *(tokenStream[tokenNum].lexeme.str + charNum);
-            charNum++;
-        }
-        str[strlen] = '\0';
+        case NodeType_Add: {
+          printf("+:\n");
+          parser_print_tree(node->binary.left, indent + 1);
+          parser_print_tree(node->binary.right, indent + 1);
+        } break;
 
-        tokenNum++;
+        case NodeType_Sub: {
+          printf("-:\n");
+          parser_print_tree(node->binary.left, indent + 1);
+          parser_print_tree(node->binary.right, indent + 1);
+        } break;
 
-        printf("%s\n", str);
+        case NodeType_Mul: {
+          printf("*:\n");
+          parser_print_tree(node->binary.left, indent + 1);
+          parser_print_tree(node->binary.right, indent + 1);
+        } break;
+
+        case NodeType_Div: {
+          printf("/:\n");
+          parser_print_tree(node->binary.left, indent + 1);
+          parser_print_tree(node->binary.right, indent + 1);
+        } break;
+
+        case NodeType_Pow: {
+          printf("^:\n");
+          parser_print_tree(node->binary.left, indent + 1);
+          parser_print_tree(node->binary.right, indent + 1);
+        } break;
     }
 }
+

@@ -43,10 +43,6 @@ typedef struct Parser {
 } Parser;
 
 
-Node *Alloc_Node();
-void Dealloc_Tree(Node *tree);
-void parser_print_tree(Node *tree, int indent);
-
 void parser_init(Parser *parser, string expression);
 Node *parser_parse_expression(Parser *parser, Precedence prev_operator_prec);
 

@@ -1,21 +1,15 @@
 #ifndef clib
 #define clib
 
-#include "../source/Lexer.h"
+#include "../source/Parser.h"
 
-/* 
- * Checks if char is a digit
-*/
 unsigned short int isDigit(char a); 
-
-/* 
- * Checks if char is whitespace
-*/
 unsigned short int isWhitspace(char a); 
-
-/*
-*   returns a string struct from string
-*/
 string strMake(char str[]);
+
+float lexeme_to_number (string lexeme);
+
+Node *Alloc_Node();
+void Dealloc_Tree(Node *tree);
 
 #endif

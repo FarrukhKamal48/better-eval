@@ -1,5 +1,3 @@
-#include <stdio.h>
-
 #include "Lexer.h"
 #include "../lib/clib.h"
 
@@ -7,18 +5,6 @@
 void lexer_init(Lexer *lexer, string expresssion) {
     lexer->start = expresssion.str;
     lexer->current = expresssion.str;
-};
-
-void lexer_print_token(Token token) {
-    int len = (token.lexeme.str + token.lexeme.size) - token.lexeme.str;
-    char str[len];
-    int i = 0;
-    while (i < len) {
-        str[i] = *(token.lexeme.str + i);
-        i++;
-    }
-    str[len] = '\0';
-    printf("%s\n", str);
 };
 
 Token lexer_make_token (Lexer *lexer, TokenType type) {
@@ -67,11 +53,3 @@ Token lexer_next_token (Lexer *lexer) {
         default: return lexer_make_token(lexer, TokenType_ERROR);
     }
 }
-
-float lexeme_to_number (string lexeme) {
-    float result = 0;
-    for (int i = 0; i < lexeme.size; i++) {
-        result = result * 10.0 + (float)(lexeme.str[i] - '0');
-    }
-    return result;
-};
