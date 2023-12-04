@@ -22,6 +22,7 @@ void lexer_print_token(Token token) {
         case TokenType_Minus: printf("-"); break;
         case TokenType_OpenParen: printf("("); break;
         case TokenType_CloseParen: printf(")"); break;
+        case TokenType_Pipe: printf("|"); break;
         case TokenType_ERROR: printf("ERROR"); break;
     }
 }
@@ -44,6 +45,11 @@ void parser_print_tree(Node *node, int indent) {
 
         case NodeType_Negative: {
           printf("Unary -:\n");
+          parser_print_tree(node->unary.operand, indent + 1);
+        } break;
+
+        case NodeType_Abs: {
+          printf("Abs:\n");
           parser_print_tree(node->unary.operand, indent + 1);
         } break;
 
