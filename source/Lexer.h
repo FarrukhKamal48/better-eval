@@ -4,17 +4,19 @@
 typedef int TokenType;
 enum {
     TokenType_Caret,
+
     TokenType_Slash,
     TokenType_Star,
+    TokenType_Modulo,
+
     TokenType_Plus,
     TokenType_Minus,
 
     TokenType_Num,
 
+    TokenType_Pipe,
     TokenType_OpenParen,
     TokenType_CloseParen,
-
-    TokenType_Pipe,
 
     TokenType_EOF,
     TokenType_ERROR,

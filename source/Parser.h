@@ -6,16 +6,18 @@
 typedef int NodeType;
 enum {
     NodeType_Pow,
+
     NodeType_Div,
     NodeType_Mul,
+    NodeType_Mod,
+    
     NodeType_Add,
     NodeType_Sub,
 
     NodeType_Num,
+    NodeType_Abs,
     NodeType_Positive,
     NodeType_Negative,
-
-    NodeType_Abs,
 
     NodeType_ERROR,
 };

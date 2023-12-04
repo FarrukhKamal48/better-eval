@@ -7,6 +7,7 @@ static Precedence Precedence_Lookup[TokenType_MAX] = {
     [TokenType_Minus] = Precedence_Term,
     [TokenType_Slash] = Precedence_Factor,
     [TokenType_Star] =  Precedence_Factor,
+    [TokenType_Modulo] = Precedence_Factor,
     [TokenType_Caret] = Precedence_Power,
 };
 
@@ -80,11 +81,12 @@ Node *parser_parse_terminal_expr(Parser *parser) {
 Node *parser_parse_inifix_expr(Parser *parser, Token operator, Node *left) {
     Node *ret = Alloc_Node();
     switch (operator.type) {
-        case TokenType_Plus:  ret->type = NodeType_Add; break;
-        case TokenType_Minus: ret->type = NodeType_Sub; break;
-        case TokenType_Star:  ret->type = NodeType_Mul; break;
-        case TokenType_Slash: ret->type = NodeType_Div; break;
-        case TokenType_Caret: ret->type = NodeType_Pow; break;
+        case TokenType_Caret:  ret->type = NodeType_Pow; break;
+        case TokenType_Slash:  ret->type = NodeType_Div; break;
+        case TokenType_Star:   ret->type = NodeType_Mul; break;
+        case TokenType_Modulo: ret->type = NodeType_Mod; break;
+        case TokenType_Plus:   ret->type = NodeType_Add; break;
+        case TokenType_Minus:  ret->type = NodeType_Sub; break;
     }
     ret->binary.left = left;
     ret->binary.right = parser_parse_expression(parser, Precedence_Lookup[operator.type]);

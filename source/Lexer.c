@@ -47,6 +47,8 @@ Token lexer_next_token (Lexer *lexer) {
         case '+': lexer->current++; return lexer_make_token(lexer, TokenType_Plus); 
         case '-': lexer->current++; return lexer_make_token(lexer, TokenType_Minus); 
 
+        case '%': lexer->current++; return lexer_make_token(lexer, TokenType_Modulo); 
+
         case '(': lexer->current++; return lexer_make_token(lexer, TokenType_OpenParen); 
         case ')': lexer->current++; return lexer_make_token(lexer, TokenType_CloseParen); 
 
