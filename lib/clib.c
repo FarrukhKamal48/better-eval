@@ -40,12 +40,14 @@ Node *Alloc_Node() {
 }
 
 void Dealloc_Tree(Node *tree) {
-    if (tree->type == NodeType_Num) { 
-        free(tree); 
-        return;
+    switch (tree->type) {
+        case NodeType_Num: case NodeType_ERROR: free(tree); break;
+
+        case NodeType_Positive: case NodeType_Negative: Dealloc_Tree(tree->unary.operand); break;
+
+        case NodeType_Pow: case NodeType_Div: case NodeType_Mul: case NodeType_Add: case NodeType_Sub: {
+            Dealloc_Tree(tree->binary.left);
+            Dealloc_Tree(tree->binary.right);
+        } break;
     }
-    
-    Dealloc_Tree(tree->binary.left);
-    Dealloc_Tree(tree->binary.right);
-    free(tree);
 };

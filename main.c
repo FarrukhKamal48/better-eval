@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     float answer = evaluate(tree);
     printf("\nAnswer: %f\n", answer);
 
-    // Dealloc_Tree(tree);
+    Dealloc_Tree(tree);
 
     return 0;
 }
