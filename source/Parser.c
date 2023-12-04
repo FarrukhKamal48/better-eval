@@ -40,6 +40,15 @@ Node *parser_parse_terminal_expr(Parser *parser) {
             parser_advance(parser);
         }
     }
+    else if (parser->curr.type == TokenType_Pipe) {
+        parser_advance(parser);
+        ret = Alloc_Node();
+        ret->type = NodeType_Abs;
+        ret->unary.operand = parser_parse_expression(parser, Precedence_MIN);
+        if (parser->curr.type == TokenType_Pipe) {
+            parser_advance(parser);
+        }
+    }
     else if (parser->curr.type == TokenType_Plus) {
         parser_advance(parser);
         ret = Alloc_Node();
