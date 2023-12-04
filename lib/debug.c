@@ -22,6 +22,7 @@ void lexer_print_token(Token token) {
         case TokenType_Minus: printf("-"); break;
         case TokenType_OpenParen: printf("("); break;
         case TokenType_CloseParen: printf(")"); break;
+        case TokenType_ERROR: printf("ERROR"); break;
     }
 }
 
