@@ -1,13 +1,34 @@
 #include <stdio.h>
+#include <stdlib.h>
 
 #include "debug.h"
+
+char *lexeme_to_string(string lexeme) {
+    char *str = malloc(lexeme.size * sizeof(char));
+    for (int i = 0; i < lexeme.size; i++) {
+        str[i] = lexeme.str[i];
+    }
+    return str;
+}
+void lexer_print_token(Token *token) {
+    switch (token->type) {
+        case TokenType_Num:   printf("%s", lexeme_to_string(token->lexeme)); break;
+        case TokenType_Caret: printf("^"); break;
+        case TokenType_Slash: printf("/"); break;
+        case TokenType_Star:  printf("*"); break;
+        case TokenType_Plus:  printf("+"); break;
+        case TokenType_Minus: printf("-"); break;
+        case TokenType_OpenParen: printf("("); break;
+        case TokenType_CloseParen: printf(")"); break;
+    }
+}
 
 void parser_print_tree(Node *node, int indent) {
     if (indent == 0) printf("\n");
     for (int i = 0; i < indent; i++) printf("  ");
 
     switch (node->type) {
-        case NodeType_ERROR: printf("Error\n"); break;
+        case NodeType_ERROR: printf("ERROR\n"); break;
 
         case NodeType_Num: {
           printf("%f\n", node->number);
