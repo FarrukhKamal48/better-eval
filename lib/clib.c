@@ -27,6 +27,11 @@ string strMake(char expr[]) {
     };
 };
 
+float Abs(float val) {
+    if (val < 0) return -val;
+    return val;
+};
+
 float lexeme_to_number (string lexeme) {
     return strtod(lexeme.str, NULL);
 };
