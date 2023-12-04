@@ -20,9 +20,12 @@ Token lexer_make_token (Lexer *lexer, TokenType type) {
 }
 
 Token lexer_number_token (Lexer *lexer) {
+    unsigned short int dps = 0;
     while (isDigit(*lexer->current) || (*lexer->current == '.')) {
+        dps += *lexer->current == '.';
         lexer->current += 1;
     }
+    if (dps > 1) return lexer_make_token(lexer, TokenType_ERROR);
     return lexer_make_token(lexer, TokenType_Num);
 }
 
