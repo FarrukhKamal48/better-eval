@@ -8,11 +8,13 @@ char *lexeme_to_string(string lexeme) {
     for (int i = 0; i < lexeme.size; i++) {
         str[i] = lexeme.str[i];
     }
+    str[lexeme.size] = '\0';
     return str;
 }
-void lexer_print_token(Token *token) {
-    switch (token->type) {
-        case TokenType_Num:   printf("%s", lexeme_to_string(token->lexeme)); break;
+void lexer_print_token(Token token) {
+    printf("\n");
+    switch (token.type) {
+        case TokenType_Num:   printf("%s", lexeme_to_string(token.lexeme)); break;
         case TokenType_Caret: printf("^"); break;
         case TokenType_Slash: printf("/"); break;
         case TokenType_Star:  printf("*"); break;

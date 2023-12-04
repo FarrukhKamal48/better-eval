@@ -52,6 +52,10 @@ Node *parser_parse_terminal_expr(Parser *parser) {
         ret->type = NodeType_Negative;
         ret->unary.operand = parser_parse_terminal_expr(parser);
     }
+    else if (!ret) {
+        ret = Alloc_Node();
+        ret->type = NodeType_ERROR;
+    }
     
     if (parser->curr.type == TokenType_Num || parser->curr.type == TokenType_OpenParen) {
         Node *new_ret = Alloc_Node();

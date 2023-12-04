@@ -20,7 +20,7 @@ Token lexer_make_token (Lexer *lexer, TokenType type) {
 }
 
 Token lexer_number_token (Lexer *lexer) {
-    while (isDigit(*lexer->current) | (*lexer->current == '.')) {
+    while (isDigit(*lexer->current) || (*lexer->current == '.')) {
         lexer->current += 1;
     }
     return lexer_make_token(lexer, TokenType_Num);
@@ -49,6 +49,7 @@ Token lexer_next_token (Lexer *lexer) {
 
         case '0': case '1': case '2': case '3': case '4':
         case '5': case '6': case '7': case '8': case '9': return lexer_number_token(lexer);
+        case '.': return lexer_number_token(lexer);
 
         default: return lexer_make_token(lexer, TokenType_ERROR);
     }
