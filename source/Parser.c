@@ -3,10 +3,10 @@
 
 
 static Precedence Precedence_Lookup[TokenType_MAX] = {
-    [TokenType_Plus] = Precedence_Term,
+    [TokenType_Plus] =  Precedence_Term,
     [TokenType_Minus] = Precedence_Term,
     [TokenType_Slash] = Precedence_Factor,
-    [TokenType_Star] = Precedence_Factor,
+    [TokenType_Star] =  Precedence_Factor,
     [TokenType_Caret] = Precedence_Power,
 };
 
