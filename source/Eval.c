@@ -13,6 +13,8 @@ float evaluate(Node *expr) {
         case NodeType_Mul: return evaluate(expr->binary.left) * evaluate(expr->binary.right); break;
         case NodeType_Add: return evaluate(expr->binary.left) + evaluate(expr->binary.right); break;
         case NodeType_Sub: return evaluate(expr->binary.left) - evaluate(expr->binary.right); break;
+        // case NodeType_ERROR: return 3.40282e+038; break;
+        case NodeType_ERROR: return FLOAT_MAX; break;
     }
     return 0;
 }
