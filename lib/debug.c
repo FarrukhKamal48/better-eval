@@ -21,9 +21,10 @@ void lexer_print_token(Token token) {
         case TokenType_Modulo:     printf("%%"); break;
         case TokenType_Plus:       printf("+"); break;
         case TokenType_Minus:      printf("-"); break;
+        case TokenType_ClosePipe:  printf("["); break;
+        case TokenType_OpenPipe:   printf("]"); break;
         case TokenType_OpenParen:  printf("("); break;
         case TokenType_CloseParen: printf(")"); break;
-        case TokenType_Pipe:       printf("|"); break;
         case TokenType_ERROR:      printf("ERROR"); break;
     }
 }

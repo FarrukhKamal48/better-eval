@@ -14,7 +14,8 @@ enum {
 
     TokenType_Num,
 
-    TokenType_Pipe,
+    TokenType_OpenPipe,
+    TokenType_ClosePipe,
     TokenType_OpenParen,
     TokenType_CloseParen,
 

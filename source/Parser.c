@@ -41,12 +41,12 @@ Node *parser_parse_terminal_expr(Parser *parser) {
             parser_advance(parser);
         }
     }
-    else if (parser->curr.type == TokenType_Pipe) {
+    else if (parser->curr.type == TokenType_OpenPipe) {
         parser_advance(parser);
         ret = Alloc_Node();
         ret->type = NodeType_Abs;
         ret->unary.operand = parser_parse_expression(parser, Precedence_MIN);
-        if (parser->curr.type == TokenType_Pipe) {
+        if (parser->curr.type == TokenType_ClosePipe) {
             parser_advance(parser);
         }
     }
@@ -67,7 +67,8 @@ Node *parser_parse_terminal_expr(Parser *parser) {
         ret->type = NodeType_ERROR;
     }
     
-    if (parser->curr.type == TokenType_Num || parser->curr.type == TokenType_OpenParen) {
+    if (parser->curr.type == TokenType_Num || parser->curr.type == TokenType_OpenParen 
+        || parser->curr.type == TokenType_OpenPipe) {
         Node *new_ret = Alloc_Node();
         new_ret->type = NodeType_Mul;
         new_ret->binary.left = ret;
