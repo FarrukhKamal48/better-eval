@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
@@ -31,6 +32,11 @@ float Abs(float val) {
     if (val < 0) return -val;
     return val;
 };
+
+void Fgets(char *str, int size) {
+    fgets(str, size, stdin);
+    str[strlen(str)-1] = '\0';
+}
 
 float lexeme_to_number (string lexeme) {
     return strtod(lexeme.str, NULL);
