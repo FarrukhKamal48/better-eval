@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
         while (1) {
             printf("\n>> ");
             Fgets(expr, 100);
-            if (expr[0] == 'q') 
+            if (expr[0] == '\\' && expr[1] == 'q') 
                 break;
             Calculate(strMake(expr), 1);
         }
