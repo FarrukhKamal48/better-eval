@@ -6,15 +6,15 @@
 typedef int NodeType;
 enum {
     NodeType_Pow,
-
     NodeType_Div,
     NodeType_Mul,
     NodeType_Mod,
-    
     NodeType_Add,
     NodeType_Sub,
+    NodeType_Equal,
 
     NodeType_Num,
+    NodeType_Ident,
     NodeType_Abs,
     NodeType_Positive,
     NodeType_Negative,
@@ -25,6 +25,7 @@ enum {
 typedef int Precedence;
 enum {
     Precedence_MIN,
+    Precedence_Equality,
     Precedence_Term,
     Precedence_Factor,
     Precedence_Power,
