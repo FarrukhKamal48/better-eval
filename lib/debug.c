@@ -15,12 +15,14 @@ void lexer_print_token(Token token) {
     printf("\n");
     switch (token.type) {
         case TokenType_Num:        printf("%s", lexeme_to_string(token.lexeme)); break;
+        case TokenType_Ident:      printf("%s", lexeme_to_string(token.lexeme)); break;
         case TokenType_Caret:      printf("^"); break;
         case TokenType_Slash:      printf("/"); break;
         case TokenType_Star:       printf("*"); break;
         case TokenType_Modulo:     printf("%%"); break;
         case TokenType_Plus:       printf("+"); break;
         case TokenType_Minus:      printf("-"); break;
+        case TokenType_Equal:      printf("="); break;
         case TokenType_ClosePipe:  printf("["); break;
         case TokenType_OpenPipe:   printf("]"); break;
         case TokenType_OpenParen:  printf("("); break;
@@ -30,7 +32,7 @@ void lexer_print_token(Token token) {
 }
 
 void parser_print_tree(Node *node, int indent) {
-    if (indent == 0) printf("\n");
+    if (indent == 0) printf("\nTree:\n");
     for (int i = 0; i < indent; i++) printf("  ");
 
     switch (node->type) {
@@ -38,6 +40,10 @@ void parser_print_tree(Node *node, int indent) {
 
         case NodeType_Num: {
           printf("%f\n", node->number);
+        } break;
+            
+        case NodeType_Ident: {
+          printf("%c\n", (int)node->number);
         } break;
 
         case NodeType_Positive: {
@@ -53,6 +59,12 @@ void parser_print_tree(Node *node, int indent) {
         case NodeType_Abs: {
           printf("Abs:\n");
           parser_print_tree(node->unary.operand, indent + 1);
+        } break;
+            
+        case NodeType_Equal: {
+          printf("=:\n");
+          parser_print_tree(node->binary.left, indent + 1);
+          parser_print_tree(node->binary.right, indent + 1);
         } break;
 
         case NodeType_Add: {
