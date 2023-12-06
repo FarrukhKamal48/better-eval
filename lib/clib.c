@@ -8,6 +8,10 @@ unsigned short int isDigit(char a) {
     return a >= '0' && a <= '9';
 }
 
+unsigned short int isAlpha(char a) {
+    return (a >= 'a' && a <= 'z') || (a >= 'A' && a <= 'Z');
+} 
+
 unsigned short int isWhitspace(char a) {
     switch (a) {
         case ' ': case '\r': case '\t': case '\n': return 1; 
