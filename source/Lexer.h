@@ -12,7 +12,10 @@ enum {
     TokenType_Plus,
     TokenType_Minus,
 
+    TokenType_Equal,
+
     TokenType_Num,
+    TokenType_Ident,
 
     TokenType_OpenPipe,
     TokenType_ClosePipe,
