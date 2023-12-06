@@ -4,14 +4,11 @@
 typedef int TokenType;
 enum {
     TokenType_Caret,
-
     TokenType_Slash,
     TokenType_Star,
     TokenType_Modulo,
-
     TokenType_Plus,
     TokenType_Minus,
-
     TokenType_Equal,
 
     TokenType_Num,

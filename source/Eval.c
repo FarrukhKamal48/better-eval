@@ -13,9 +13,9 @@ float evaluate(Node *expr) {
         case NodeType_Pow: return pow(evaluate(expr->binary.left), evaluate(expr->binary.right)); break;
         case NodeType_Div: return evaluate(expr->binary.left) / evaluate(expr->binary.right); break;
         case NodeType_Mul: return evaluate(expr->binary.left) * evaluate(expr->binary.right); break;
+        case NodeType_Mod: return (int)evaluate(expr->binary.left) % (int)evaluate(expr->binary.right); break;
         case NodeType_Add: return evaluate(expr->binary.left) + evaluate(expr->binary.right); break;
         case NodeType_Sub: return evaluate(expr->binary.left) - evaluate(expr->binary.right); break;
-        case NodeType_Mod: return (int)evaluate(expr->binary.left) % (int)evaluate(expr->binary.right); break;
         case NodeType_ERROR: return FLOAT_MAX; break;
     }
     return 0;
