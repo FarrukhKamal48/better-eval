@@ -35,7 +35,7 @@ void Calculate(string expression, unsigned short int debug) {
     Parser parser;
     parser_init(&parser, expression);
     Node *tree = parser_parse_expression(&parser, Precedence_MIN);
-    float answer = evaluate(tree);
+    float answer = evaluate(tree, &parser.ident);
 
     printf("\n%s = %f\n", expression.str, answer);
 
