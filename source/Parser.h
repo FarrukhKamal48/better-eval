@@ -2,6 +2,7 @@
 #define PARSER
 
 #include "Lexer.h"
+#include "Ident.h"
 
 typedef int NodeType;
 enum {
@@ -45,6 +46,7 @@ struct Node {
 typedef struct Parser {
     Lexer lexer;
     Token curr;
+    Identifier ident;
 } Parser;
 
 
