@@ -19,7 +19,6 @@ void parser_advance(Parser *parser) {
 void parser_init(Parser *parser, string expression) {
     parser->curr = (Token) {0};
     lexer_init(&parser->lexer, expression);
-    ident_init(&parser->ident);
     parser_advance(parser);
 }
 

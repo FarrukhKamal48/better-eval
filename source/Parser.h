@@ -46,7 +46,6 @@ struct Node {
 typedef struct Parser {
     Lexer lexer;
     Token curr;
-    Identifier ident;
 } Parser;
 
 

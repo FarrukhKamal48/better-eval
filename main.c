@@ -5,10 +5,13 @@
 #include "source/Eval.h"
 #include "source/Parser.h"
 
-void Calculate(string expression, unsigned short int debug);
+void Calculate(Identifier *ident, string expression, unsigned short int debug);
 
 int main(int argc, char *argv[])
 {
+    Identifier ident;
+    ident_init(&ident);
+    
     if (argc == 1) {
         char expr[100];
         while (1) {
@@ -16,26 +19,26 @@ int main(int argc, char *argv[])
             Fgets(expr, 100);
             if (expr[0] == '\\' && expr[1] == 'q') 
                 break;
-            Calculate(strMake(expr), 1);
+            Calculate(&ident, strMake(expr), 1);
         }
     }
     else if (argc == 2) {
         string expression = strMake(argv[1]);
-        Calculate(expression, 0);
+        Calculate(&ident, expression, 0);
     }
     else if (argc == 3) {
         string expression = strMake(argv[1]);
-        Calculate(expression, *argv[2]=='d');
+        Calculate(&ident, expression, *argv[2]=='d');
     }
-
+    
     return 0;
 }
 
-void Calculate(string expression, unsigned short int debug) {
+void Calculate(Identifier *ident, string expression, unsigned short int debug) {
     Parser parser;
     parser_init(&parser, expression);
     Node *tree = parser_parse_expression(&parser, Precedence_MIN);
-    float answer = evaluate(tree, &parser.ident);
+    float answer = evaluate(tree, ident);
 
     printf("\n%s = %f\n", expression.str, answer);
 

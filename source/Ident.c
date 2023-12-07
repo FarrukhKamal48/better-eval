@@ -20,6 +20,7 @@ Identifier *ident_find(Identifier *ident, char letter) {
         if (ident->letter == letter || ident->letter == '\0') {
             ret = ident;
             ret->letter = letter;
+            return ret;
         }
     };
     return NULL;

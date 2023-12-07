@@ -1,4 +1,5 @@
 #include <math.h>
+#include <stdio.h>
 
 #include "Eval.h"
 #include "Ident.h"
@@ -8,6 +9,16 @@
 float evaluate(Node *expr, Identifier *ident) {
     switch (expr->type) {
         case NodeType_Num: return expr->number; break;
+        case NodeType_Ident: {
+            int letter_ascii = expr->number;
+            Identifier *curr_Ident = ident_find(ident, letter_ascii);
+            if (curr_Ident == ((void*)0)) {
+                return FLOAT_MAX;
+            }else {
+                printf("ident %c used, value = %f", letter_ascii, curr_Ident->value);
+                return curr_Ident->value;
+            }
+        }; break;
         case NodeType_Abs: return Abs(evaluate(expr->unary.operand, ident)); break;
         case NodeType_Positive: return +evaluate(expr->unary.operand, ident); break;
         case NodeType_Negative: return -evaluate(expr->unary.operand, ident); break;
@@ -24,6 +35,7 @@ float evaluate(Node *expr, Identifier *ident) {
                 curr_Ident = ident_add(ident, letter_ascii, evaluate(expr->binary.right, ident));
             }else {
                 curr_Ident->value = evaluate(expr->binary.right, ident);
+                printf("ident %c set, value = %f", letter_ascii, curr_Ident->value);
             }
             return curr_Ident->value;
         }; break;
