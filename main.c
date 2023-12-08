@@ -17,15 +17,15 @@ int main(int argc, char *argv[])
             case 'h': flags[2][0] = 1; flags[2][1] = i; break;
         }
     }
+    
     char help_msg[250] = "\n^,*,/,+,-     -- basic arithmatic operators \n%             -- Modulus operator(remainder) \n=             -- used for variable assighnment (eg. x = 5) \n()            -- parenthes (self explanitory) \n[]            -- Absolute operator ([-5] = 5)\n";
-     
-    Identifier ident;       // setup identifier list
-    ident_init(&ident);
-
     if (flags[2][0]) {      // print help message
         printf("%s%s", colors[5], help_msg);
         if (argc == 2) return 0;
     }
+
+    Identifier ident;       // setup identifier list
+    ident_init(&ident);
     
     if (flags[0][0]) {                                      // if expression has been provided
         string expression = strMake(argv[flags[0][1]]);     // get the expression
