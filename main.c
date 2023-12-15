@@ -34,8 +34,9 @@ int main(int argc, char *argv[])
     }
     else {                                              // if no expression provided
         char expr[100];
+        printf("\n");
         while (1) {
-            printf("\n%s%s❯ ", colors[1], colors[4]);   // print sylish prompt
+            printf("%s%s❯ ", colors[1], colors[4]);   // print sylish prompt
             Fgets(expr, 100);                           // get the expression
             printf("  ");       // padding
             
