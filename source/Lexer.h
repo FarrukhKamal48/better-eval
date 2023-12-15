@@ -13,6 +13,7 @@ enum {
 
     TokenType_Num,
     TokenType_Ident,
+    TokenType_Comma,
 
     TokenType_OpenPipe,
     TokenType_ClosePipe,
