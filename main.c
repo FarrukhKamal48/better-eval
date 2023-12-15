@@ -60,7 +60,9 @@ void Calculate(Identifier *ident, string expression, unsigned short int debug) {
     Node *tree = parser_parse_expression(&parser, Precedence_MIN);
     float answer = evaluate(tree, ident);
     
-    printf("= %s%f\n", colors[6], answer);
+    if (answer >= FLOAT_MAX) printf("= %s%sERROR\n", colors[1], colors[3]);
+    else
+        printf("= %s%f\n", colors[6], answer);
 
     if (debug) parser_print_tree(tree, 1);
     Dealloc_Tree(tree);

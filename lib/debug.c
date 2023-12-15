@@ -38,7 +38,7 @@ void parser_print_tree(Node *node, int indent) {
     for (int i = 0; i < indent; i++) printf("%s  ", colors[0]);
 
     switch (node->type) {
-        case NodeType_ERROR: printf("%s%sERROR\n", colors[1], colors[4]); break;
+        case NodeType_ERROR: printf("%s%sERROR\n", colors[1], colors[3]); break;
 
         case NodeType_Num: {
           printf("%s%f\n", colors[6], node->number);
