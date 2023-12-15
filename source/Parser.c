@@ -74,13 +74,15 @@ Node *parser_parse_terminal_expr(Parser *parser) {
         ret->type = NodeType_ERROR;
     }
     
+    // check if input is eg. 5(2+2) or (2+2)5
+    Node *mult_ret;
     if (parser->curr.type == TokenType_Num || parser->curr.type == TokenType_OpenParen 
         || parser->curr.type == TokenType_OpenPipe) {
-        Node *new_ret = Alloc_Node();
-        new_ret->type = NodeType_Mul;
-        new_ret->binary.left = ret;
-        new_ret->binary.right = parser_parse_expression(parser, Precedence_Lookup[Precedence_Factor]);
-        return new_ret;
+        mult_ret = Alloc_Node();
+        mult_ret->type = NodeType_Mul;
+        mult_ret->binary.left = ret;
+        mult_ret->binary.right = parser_parse_expression(parser, Precedence_Lookup[Precedence_Factor]);
+        return mult_ret;
     }
 
     return ret;
