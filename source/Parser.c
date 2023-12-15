@@ -1,5 +1,4 @@
 #include "../lib/clib.h"
-#include <stdio.h>
 #include "Parser.h"
 
 
@@ -76,6 +75,7 @@ Node *parser_parse_terminal_expr(Parser *parser) {
     }
 
     if (parser->curr.type == TokenType_Exclaim) {
+        parser_advance(parser);
         Node *fact_ret = Alloc_Node();
         fact_ret->type = NodeType_Factorial;
         fact_ret->unary.operand = ret;
