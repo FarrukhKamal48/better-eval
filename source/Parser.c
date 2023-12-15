@@ -94,7 +94,7 @@ Node *parser_parse_terminal_expr(Parser *parser) {
     return ret;
 }
 
-Node *parser_parse_inifix_expr(Parser *parser, Token operator, Node *left) {
+Node *parser_parse_binary_operator(Parser *parser, Token operator, Node *left) {
     Node *ret = Alloc_Node();
     switch (operator.type) {
         case TokenType_Caret:  ret->type = NodeType_Pow; break;
@@ -121,7 +121,7 @@ Node *parser_parse_expression(Parser *parser, Precedence prev_operator_prec) {
         }else {
             parser_advance(parser);
 
-            left = parser_parse_inifix_expr(parser, curr_operator, left);
+            left = parser_parse_binary_operator(parser, curr_operator, left);
             curr_operator = parser->curr;
             cur_operator_prec = Precedence_Lookup[curr_operator.type];
         }
