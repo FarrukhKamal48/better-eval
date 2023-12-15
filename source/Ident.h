@@ -22,7 +22,6 @@ Function *func_add(Function *func, char letter, char args[], Node *expr);
 
 void ident_init(Identifier *ident);
 Identifier *ident_add(Identifier *ident, char letter, float value);
-Identifier *ident_new(char letter, float value);
 Identifier *ident_find(Identifier *ident ,char letter);
 
 #endif
