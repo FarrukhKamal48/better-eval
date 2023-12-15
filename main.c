@@ -5,7 +5,7 @@
 #include "source/Eval.h"
 #include "source/Parser.h"
 
-void Calculate(Identifier *ident, string expression, unsigned short int debug);
+void Calculate(Identifier *ident, Function *func, string expression, unsigned short int debug);
 
 int main(int argc, char *argv[])
 {
@@ -26,11 +26,13 @@ int main(int argc, char *argv[])
 
     Identifier ident;       // setup identifier list
     ident_init(&ident);
+    Function func;          // setup funciton list
+    func_init(&func);
     
     if (flags[0][0]) {                                      // if expression has been provided
         string expression = strMake(argv[flags[0][1]]);     // get the expression
         printf("  %s%s%s", colors[1], colors[4], expression.str);
-        Calculate(&ident, expression, flags[1][0]);         // start calculation (while also checking for debug flag)
+        Calculate(&ident, &func, expression, flags[1][0]);         // start calculation (while also checking for debug flag)
     }
     else {                                              // if no expression provided
         char expr[100];
@@ -53,7 +55,7 @@ int main(int argc, char *argv[])
                 continue;
             }
             
-            Calculate(&ident, strMake(expr), flags[1][0]);  // start the calculation
+            Calculate(&ident, &func, strMake(expr), flags[1][0]);  // start the calculation
         }
     }
     printf("\n");
@@ -61,7 +63,7 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-void Calculate(Identifier *ident, string expression, unsigned short int debug) {
+void Calculate(Identifier *ident, Function *func, string expression, unsigned short int debug) {
     Parser parser;
     parser_init(&parser, expression);
     Node *tree = parser_parse_expression(&parser, Precedence_MIN);
