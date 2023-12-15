@@ -36,10 +36,22 @@ Node *parser_parse_terminal_expr(Parser *parser) {
         ret = parser_parse_number(parser);
     }
     else if (parser->curr.type == TokenType_Ident) {
-        ret = Alloc_Node();
-        ret->type = NodeType_Ident;
-        ret->number = *parser->curr.lexeme.str;
+        char letter = *parser->curr.lexeme.str;
         parser_advance(parser);
+        if (parser->curr.type == TokenType_OpenParen) {
+            parser_advance(parser);
+            char arg = *parser->curr.lexeme.str;
+            parser_advance(parser);
+            parser_advance(parser);
+            ret = Alloc_Node();
+            ret->type = NodeType_Func;
+            ret->number = (letter-'a'+10)*100+(arg-'a'+10);
+        }
+        else {
+            ret = Alloc_Node();
+            ret->type = NodeType_Ident;
+            ret->number = letter;
+        }
     }
     else if (parser->curr.type == TokenType_OpenParen) {
         parser_advance(parser);

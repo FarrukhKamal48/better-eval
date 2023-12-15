@@ -15,6 +15,7 @@ enum {
 
     NodeType_Num,
     NodeType_Ident,
+    NodeType_Func,
     NodeType_Abs,
     NodeType_Positive,
     NodeType_Negative,
