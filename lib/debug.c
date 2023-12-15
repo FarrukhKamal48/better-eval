@@ -47,6 +47,12 @@ void parser_print_tree(Node *node, int indent) {
         case NodeType_Ident: {
           printf("%s%s%c\n", colors[6], colors[12], (int)node->number);
         } break;
+            
+        case NodeType_Func: {
+          int firstNum = (int)(node->number/100);
+          int secondNum = Ceil((node->number/100 - firstNum)*100);
+          printf("%s%s%c(%c)\n", colors[6], colors[12], firstNum-10+'a', secondNum-10+'a');
+        } break;
 
         case NodeType_Positive: {
           printf("%sUnary %s+:\n", colors[6], colors[4]);
