@@ -18,6 +18,7 @@ enum {
     TokenType_ClosePipe,
     TokenType_OpenParen,
     TokenType_CloseParen,
+    TokenType_Exclaim,
 
     TokenType_EOF,
     TokenType_ERROR,
