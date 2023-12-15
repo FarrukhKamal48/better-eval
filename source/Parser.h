@@ -2,7 +2,6 @@
 #define PARSER
 
 #include "Lexer.h"
-#include "Ident.h"
 
 typedef int NodeType;
 enum {
