@@ -82,8 +82,8 @@ Node *parser_parse_terminal_expr(Parser *parser) {
         ret = fact_ret;
     }
     
-    if (parser->curr.type == TokenType_Num || parser->curr.type == TokenType_OpenParen 
-        || parser->curr.type == TokenType_OpenPipe) {
+    if (parser->curr.type == TokenType_Num || parser->curr.type == TokenType_Ident || 
+        parser->curr.type == TokenType_OpenParen || parser->curr.type == TokenType_OpenPipe) {
         Node *mult_ret = Alloc_Node();
         mult_ret->type = NodeType_Mul;
         mult_ret->binary.left = ret; 
