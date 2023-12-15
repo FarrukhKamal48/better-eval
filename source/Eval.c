@@ -17,9 +17,10 @@ float evaluate(Node *expr, Identifier *ident) {
                 return curr_Ident->value;
             }
         }; break;
-        case NodeType_Abs: return Abs(evaluate(expr->unary.operand, ident)); break;
-        case NodeType_Positive: return +evaluate(expr->unary.operand, ident); break;
-        case NodeType_Negative: return -evaluate(expr->unary.operand, ident); break;
+        case NodeType_Abs:          return Abs(evaluate(expr->unary.operand, ident)); break;
+        case NodeType_Positive:     return +evaluate(expr->unary.operand, ident); break;
+        case NodeType_Negative:     return -evaluate(expr->unary.operand, ident); break;
+        case NodeType_Factorial:    return Fact(evaluate(expr->unary.operand, ident)); break;
         case NodeType_Pow: return pow(evaluate(expr->binary.left, ident), evaluate(expr->binary.right, ident)); break;
         case NodeType_Div: return evaluate(expr->binary.left, ident) / evaluate(expr->binary.right, ident); break;
         case NodeType_Mul: return evaluate(expr->binary.left, ident) * evaluate(expr->binary.right, ident); break;

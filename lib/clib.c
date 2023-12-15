@@ -31,12 +31,13 @@ float Abs(float val) {
     return val;
 };
 
-int Fact(int val) {
-    int result; 
+float Fact(float val) {
+    if (val<0) return FLOAT_MAX;
+    float result; 
     for (result = 1; val > 0; val--) {
         result *= val;
     }
-    return result;
+    return (float)result;
 }
 
 void Fgets(char *str, int size) {

@@ -3,6 +3,8 @@
 
 #include "../source/Parser.h"
 
+#define FLOAT_MAX 340282346638528859811704183484516925440.000000
+
 static char colors[13][8] = {
     "\033[0;0m",     // 0 normal
     "\033[0;1m",     // 1 brighter
@@ -29,7 +31,7 @@ string strMake(char str[]);
 void Fgets(char *str, int size);
 
 float Abs(float val);
-int Fact(int val);
+float Fact(float val);
 
 float lexeme_to_number (string lexeme);
 
