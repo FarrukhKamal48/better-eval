@@ -75,25 +75,22 @@ Node *parser_parse_terminal_expr(Parser *parser) {
         ret->type = NodeType_ERROR;
     }
 
-    Node *fact_ret = 0;
     if (parser->curr.type == TokenType_Exclaim) {
-        fact_ret = Alloc_Node();
+        Node *fact_ret = Alloc_Node();
         fact_ret->type = NodeType_Factorial;
         fact_ret->unary.operand = ret;
+        ret = fact_ret;
     }
     
-    Node *mult_ret = 0;
     if (parser->curr.type == TokenType_Num || parser->curr.type == TokenType_OpenParen 
         || parser->curr.type == TokenType_OpenPipe) {
-        mult_ret = Alloc_Node();
+        Node *mult_ret = Alloc_Node();
         mult_ret->type = NodeType_Mul;
-        if (fact_ret)  mult_ret->binary.left = fact_ret; 
-        else           mult_ret->binary.left = ret; 
+        mult_ret->binary.left = ret; 
         mult_ret->binary.right = parser_parse_expression(parser, Precedence_Lookup[Precedence_Factor]);
+        ret = mult_ret;
     }
     
-    if (mult_ret != 0)      return mult_ret;
-    else if (fact_ret != 0) return fact_ret;
     return ret;
 }
 
