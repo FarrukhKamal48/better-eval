@@ -12,9 +12,9 @@ int main(int argc, char *argv[])
     unsigned short int flags[3][2] = {0};
     for (int i = 1; i < argc; i++) {        // get all flags like debug or help
         switch (argv[i][0]) {
-            default: flags[0][0] = 1; flags[0][1] = i; break;
-            case 'd': flags[1][0] = 1; flags[1][1] = i; break;
-            case 'h': flags[2][0] = 1; flags[2][1] = i; break;
+            default: flags[0][0] = 1; flags[0][1] = i; break;   // expression
+            case 'd': flags[1][0] = 1; flags[1][1] = i; break;  // debug
+            case 'h': flags[2][0] = 1; flags[2][1] = i; break;  // help
         }
     }
     
@@ -36,14 +36,20 @@ int main(int argc, char *argv[])
         char expr[100];
         printf("\n");
         while (1) {
+            if (flags[1][0]) printf("\n");
             printf("%s❯ %s%s", colors[6], colors[1], colors[4]);   // print sylish prompt
             Fgets(expr, 100);                           // get the expression
             printf("  ");       // padding
             
-            if (expr[0] == '\\' && expr[1] == 'q')      // to quit
+            if (expr[0] == '\\' && expr[1] == 'q')      // quit
                 break;
-            if (expr[0] == '\\' && expr[1] == 'h') {    // help
+            if (expr[0] == '\\' && expr[1] == 'h') {    // print help
                 printf("%s%s", colors[5], help_msg);
+                continue;
+            }
+            if (expr[0] == '\\' && expr[1] == 'd') {    // toggle debug
+                flags[1][0] = !flags[1][0];
+                if (!flags[1][0]) printf("\n");
                 continue;
             }
             
