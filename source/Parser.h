@@ -19,6 +19,7 @@ enum {
     NodeType_Abs,
     NodeType_Positive,
     NodeType_Negative,
+    NodeType_Factorial,
 
     NodeType_ERROR,
 };

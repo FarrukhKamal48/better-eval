@@ -28,6 +28,7 @@ void lexer_print_token(Token token) {
         case TokenType_OpenPipe:   printf("]"); break;
         case TokenType_OpenParen:  printf("("); break;
         case TokenType_CloseParen: printf(")"); break;
+        case TokenType_Exclaim:    printf("!"); break;
         case TokenType_ERROR:      printf("ERROR"); break;
     }
 }
@@ -48,12 +49,17 @@ void parser_print_tree(Node *node, int indent) {
         } break;
 
         case NodeType_Positive: {
-          printf("Unary %s+:\n", colors[4]);
+          printf("%sUnary %s+:\n", colors[6], colors[4]);
           parser_print_tree(node->unary.operand, indent + 1);
         } break;
 
         case NodeType_Negative: {
-          printf("Unary %s-:\n", colors[4]);
+          printf("%sUnary %s-:\n", colors[6], colors[4]);
+          parser_print_tree(node->unary.operand, indent + 1);
+        } break;
+            
+        case NodeType_Factorial: {
+          printf("%sUnary %s!:\n", colors[6], colors[4]);
           parser_print_tree(node->unary.operand, indent + 1);
         } break;
 
