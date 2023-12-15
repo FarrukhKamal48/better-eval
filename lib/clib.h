@@ -26,8 +26,10 @@ unsigned short int isAlpha(char a);
 unsigned short int isWhitspace(char a); 
 
 string strMake(char str[]);
-float Abs(float val);
 void Fgets(char *str, int size);
+
+float Abs(float val);
+int Fact(int val);
 
 float lexeme_to_number (string lexeme);
 

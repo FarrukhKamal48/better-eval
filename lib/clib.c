@@ -31,6 +31,14 @@ float Abs(float val) {
     return val;
 };
 
+int Fact(int val) {
+    int result; 
+    for (result = 1; val > 0; val--) {
+        result *= val;
+    }
+    return result;
+}
+
 void Fgets(char *str, int size) {
     fgets(str, size, stdin);
     str[strlen(str)-1] = '\0';
