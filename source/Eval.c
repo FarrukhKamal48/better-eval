@@ -5,7 +5,7 @@
 #include "Parser.h"
 #include "../lib/clib.h"
 
-float SetIdentifier(Node *expr, Identifier *ident);
+float SetIdentifier(Node *identifier, Node *expression, Identifier *ident);
 float RecalIdentifier(float number, Identifier *ident);
 
 float evaluate(Node *expr, Identifier *ident) {
@@ -22,7 +22,7 @@ float evaluate(Node *expr, Identifier *ident) {
         case NodeType_Mod:       return (int)evaluate(expr->binary.left, ident) % (int)evaluate(expr->binary.right, ident); break;
         case NodeType_Add:       return evaluate(expr->binary.left, ident) + evaluate(expr->binary.right, ident); break;
         case NodeType_Sub:       return evaluate(expr->binary.left, ident) - evaluate(expr->binary.right, ident); break;
-        case NodeType_Equal:     return SetIdentifier(expr, ident); break;
+        case NodeType_Equal:     return SetIdentifier(expr->binary.left, expr->binary.right, ident); break;
         case NodeType_ERROR:     return FLOAT_MAX; break;
     }
     return 0;
@@ -36,13 +36,13 @@ float RecalIdentifier(float number, Identifier *ident) {
     else
         return curr_Ident->value;
 }
-float SetIdentifier(Node *expr, Identifier *ident) {
-    int letter_ascii = expr->binary.left->number; 
+float SetIdentifier(Node *identifier, Node *expression, Identifier *ident) {
+    int letter_ascii = identifier->number; 
     Identifier *curr_Ident = ident_find(ident, letter_ascii);
     if (curr_Ident == ((void*)0))
-        curr_Ident = ident_add(ident, letter_ascii, evaluate(expr->binary.right, ident));
+        curr_Ident = ident_add(ident, letter_ascii, evaluate(expression, ident));
     else
-        curr_Ident->value = evaluate(expr->binary.right, ident);
+        curr_Ident->value = evaluate(expression, ident);
     
     return curr_Ident->value;
 }
