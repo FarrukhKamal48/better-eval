@@ -31,6 +31,7 @@ string strMake(char str[]);
 void Fgets(char *str, int size);
 
 float Abs(float val);
+int Ceil(float num);
 float Fact(float val);
 
 float lexeme_to_number (string lexeme);

@@ -1,5 +1,4 @@
 #include <stdio.h>
-#include <string.h>
 #include <stdlib.h>
 
 #include "clib.h"
@@ -19,10 +18,17 @@ unsigned short int isWhitspace(char a) {
     }
 }; 
 
+int len(char str[]) {
+    int len = 0;
+    while (str[len] != '\0') {
+        len++;
+    }
+    return len;
+}
 string strMake(char expr[]) {
     return (string) {
         .str = expr,
-        .size = strlen(expr)
+        .size = len(expr)
     };
 };
 
@@ -30,6 +36,14 @@ float Abs(float val) {
     if (val < 0) return -val;
     return val;
 };
+
+int Ceil(float num) {
+    int inum = (int)num;
+    if (num == (float)inum) {
+        return inum;
+    }
+    return inum + 1;
+}
 
 float Fact(float val) {
     if (val<0) return FLOAT_MAX;
@@ -42,7 +56,7 @@ float Fact(float val) {
 
 void Fgets(char *str, int size) {
     fgets(str, size, stdin);
-    str[strlen(str)-1] = '\0';
+    str[len(str)-1] = '\0';
 }
 
 float lexeme_to_number (string lexeme) {
