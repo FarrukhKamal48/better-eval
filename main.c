@@ -67,7 +67,7 @@ void Calculate(Identifier *ident, Function *func, string expression, unsigned sh
     Parser parser;
     parser_init(&parser, expression);
     Node *tree = parser_parse_expression(&parser, Precedence_MIN);
-    float answer = evaluate(tree, ident);
+    float answer = evaluate(tree, ident, func);
     
     if (answer >= FLOAT_MAX) printf("%s%sERROR\n", colors[1], colors[3]);
     else

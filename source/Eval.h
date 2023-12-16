@@ -4,6 +4,6 @@
 #include "Parser.h"
 #include "Ident.h"
 
-float evaluate(Node *tree, Identifier *ident);
+float evaluate(Node *expr, Identifier *ident, Function *func);
 
 #endif

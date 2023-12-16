@@ -17,20 +17,20 @@ Function *func_find(Function *func, char letter) {
     }
     return NULL;
 }
-Function *func_new(char letter, char args[], Node *expr) {
+Function *func_new(char letter, char arg, Node *expr) {
     Function *ret = malloc(sizeof(Function));
     ret->letter = letter;
-    ret->args = args;
+    ret->arg = arg;
     ret->expr = expr;
     ret->next = NULL;
     return ret;
 }
-Function *func_add(Function *func, char letter, char args[], Node *expr) {
+Function *func_add(Function *func, char letter, char arg, Node *expr) {
     if (func->letter == '\0') {
-        func = func_new(letter, args, expr);
+        func = func_new(letter, arg, expr);
         return func;
     }
-    Function *new_func = func_new(letter, args, expr); 
+    Function *new_func = func_new(letter, arg, expr); 
     new_func->next = func;
     func = new_func;
     
