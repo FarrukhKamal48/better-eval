@@ -39,6 +39,7 @@ struct Node {
 
     union {
         float number;
+        char letter;
         struct {Node *operand;} unary;
         struct {Node *left; Node *right;} binary;
     };

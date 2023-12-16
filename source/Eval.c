@@ -6,13 +6,13 @@
 #include "../lib/clib.h"
 
 float SetIdentifier(Node *identifier, Node *expression, Identifier *ident, Function *func);
-float RecalIdentifier(float number, Identifier *ident);
+float RecalIdentifier(char letter, Identifier *ident);
 // float RecalFunction(float number, Function *func);
 
 float evaluate(Node *expr, Identifier *ident, Function *func) {
     switch (expr->type) {
         case NodeType_Num:       return expr->number; break;
-        case NodeType_Ident:     return RecalIdentifier(expr->number, ident); break;
+        case NodeType_Ident:     return RecalIdentifier(expr->letter, ident); break;
         // case NodeType_Func:      return RecalFunction(expr->number, func); break;
         case NodeType_Abs:       return Abs(evaluate(expr->unary.operand, ident, func)); break;
         case NodeType_Positive:  return +evaluate(expr->unary.operand, ident, func); break;
@@ -30,9 +30,8 @@ float evaluate(Node *expr, Identifier *ident, Function *func) {
     return 0;
 }
 
-float RecalIdentifier(float number, Identifier *ident) {
-    int letter_ascii = number;
-    Identifier *curr_Ident = ident_find(ident, letter_ascii);
+float RecalIdentifier(char letter, Identifier *ident) {
+    Identifier *curr_Ident = ident_find(ident, letter);
     if (curr_Ident == ((void*)0))
         return FLOAT_MAX;
     else
@@ -40,10 +39,10 @@ float RecalIdentifier(float number, Identifier *ident) {
 }
 float SetIdentifier(Node *identifier, Node *expression, Identifier *ident, Function *func) {
     if (identifier->type == NodeType_Ident) {
-        int letter_ascii = identifier->number; 
-        Identifier *curr_Ident = ident_find(ident, letter_ascii);
+        int letter = identifier->letter; 
+        Identifier *curr_Ident = ident_find(ident, letter);
         if (curr_Ident == ((void*)0))
-            curr_Ident = ident_add(ident, letter_ascii, evaluate(expression, ident, func));
+            curr_Ident = ident_add(ident, letter, evaluate(expression, ident, func));
         else
             curr_Ident->value = evaluate(expression, ident, func);
         

@@ -50,7 +50,7 @@ Node *parser_parse_terminal_expr(Parser *parser) {
         else {
             ret = Alloc_Node();
             ret->type = NodeType_Ident;
-            ret->number = letter;
+            ret->letter = letter;
         }
     }
     else if (parser->curr.type == TokenType_OpenParen) {
