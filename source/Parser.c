@@ -40,17 +40,23 @@ Node *parser_parse_terminal_expr(Parser *parser) {
         parser_advance(parser);
         if (parser->curr.type == TokenType_OpenParen) {
             parser_advance(parser);
-            char arg = *parser->curr.lexeme.str;
-            parser_advance(parser);
-            parser_advance(parser);
+            
             ret = Alloc_Node();
             ret->type = NodeType_Func;
-            ret->number = (letter-'a'+10)*100+(arg-'a'+10);
+            ret->letters[0] = letter;
+            if (isDigit(*parser->curr.lexeme.str)) {
+                ret->letters[1] = '\0';
+                ret->number = lexeme_to_number(parser->curr.lexeme);
+            }
+            else ret->letters[1] = *parser->curr.lexeme.str;
+            
+            parser_advance(parser);
+            parser_advance(parser);
         }
         else {
             ret = Alloc_Node();
             ret->type = NodeType_Ident;
-            ret->letter = letter;
+            ret->letters[0] = letter;
         }
     }
     else if (parser->curr.type == TokenType_OpenParen) {

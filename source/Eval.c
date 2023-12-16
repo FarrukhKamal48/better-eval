@@ -7,12 +7,12 @@
 
 float SetIdentifier(Node *identifier, Node *expression, Identifier *ident, Function *func);
 float RecalIdentifier(char letter, Identifier *ident);
-// float RecalFunction(float number, Function *func);
+float RecalFunction(char letter, Function *func);
 
 float evaluate(Node *expr, Identifier *ident, Function *func) {
     switch (expr->type) {
         case NodeType_Num:       return expr->number; break;
-        case NodeType_Ident:     return RecalIdentifier(expr->letter, ident); break;
+        case NodeType_Ident:     return RecalIdentifier(expr->letters[0], ident); break;
         // case NodeType_Func:      return RecalFunction(expr->number, func); break;
         case NodeType_Abs:       return Abs(evaluate(expr->unary.operand, ident, func)); break;
         case NodeType_Positive:  return +evaluate(expr->unary.operand, ident, func); break;
@@ -30,6 +30,7 @@ float evaluate(Node *expr, Identifier *ident, Function *func) {
     return 0;
 }
 
+
 float RecalIdentifier(char letter, Identifier *ident) {
     Identifier *curr_Ident = ident_find(ident, letter);
     if (curr_Ident == ((void*)0))
@@ -37,23 +38,23 @@ float RecalIdentifier(char letter, Identifier *ident) {
     else
         return curr_Ident->value;
 }
-float SetIdentifier(Node *identifier, Node *expression, Identifier *ident, Function *func) {
-    if (identifier->type == NodeType_Ident) {
-        int letter = identifier->letter; 
-        Identifier *curr_Ident = ident_find(ident, letter);
+float SetIdentifier(Node *varNode, Node *expression, Identifier *ident, Function *func) {
+    if (varNode->type == NodeType_Ident) {
+        int ident_letter = varNode->letters[0]; 
+        Identifier *curr_Ident = ident_find(ident, ident_letter);
         if (curr_Ident == ((void*)0))
-            curr_Ident = ident_add(ident, letter, evaluate(expression, ident, func));
+            curr_Ident = ident_add(ident, ident_letter, evaluate(expression, ident, func));
         else
             curr_Ident->value = evaluate(expression, ident, func);
         
         return curr_Ident->value;
     }
-    else if (identifier->type == NodeType_Func) {
-        char letter = (int)(identifier->number/100);
-        char arg = Ceil((identifier->number/100 - letter)*100);
-        Function *curr_func = func_find(func, letter);
+    else if (varNode->type == NodeType_Func) {
+        char name = varNode->letters[0];
+        char arg = varNode->letters[1];
+        Function *curr_func = func_find(func, name);
         if (curr_func == ((void*)0))
-            curr_func = func_add(func, letter, arg, expression);
+            curr_func = func_add(func, name, arg, expression);
         else {
             curr_func->expr = expression;
         }

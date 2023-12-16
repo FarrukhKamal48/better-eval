@@ -36,10 +36,10 @@ enum {
 typedef struct Node Node ;
 struct Node {
     NodeType type;
+    char letters[2];
 
     union {
         float number;
-        char letter;
         struct {Node *operand;} unary;
         struct {Node *left; Node *right;} binary;
     };
