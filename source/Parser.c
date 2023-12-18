@@ -146,3 +146,23 @@ Node *parser_parse_expression(Parser *parser, Precedence prev_operator_prec) {
     }
     return left;
 }
+
+void ident_node_replace(Node *expr, char prev_letter, char new_letter, float new_number) {
+    if (expr->type == NodeType_Num || expr->type == NodeType_ERROR || expr->type == NodeType_Func)
+        return;
+    else if (expr->type == NodeType_Ident && expr->letters[0] == prev_letter) {
+        expr->letters[0] = new_letter;
+        expr->number = new_number;
+    }
+    else if (expr->type == NodeType_Positive || expr->type == NodeType_Negative || 
+        expr->type == NodeType_Abs || expr->type == NodeType_Factorial) {
+        ident_node_replace(expr->unary.operand, prev_letter, new_letter, new_number);
+    }
+    else if (expr->type == NodeType_Pow || expr->type == NodeType_Div || 
+        expr->type == NodeType_Mul || expr->type == NodeType_Mod || expr->type == NodeType_Add || 
+        expr->type == NodeType_Sub || expr->type == NodeType_Equal) {
+        ident_node_replace(expr->binary.left, prev_letter, new_letter, new_number);
+        ident_node_replace(expr->binary.right, prev_letter, new_letter, new_number);
+    }
+    return;
+}

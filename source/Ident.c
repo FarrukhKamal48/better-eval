@@ -1,13 +1,15 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include "Ident.h"
+#include "../lib/debug.h"
 
 void printFunc(Function **func) {
     Function *curr = *func;
     if (curr == NULL)   printf("\nFunctions not declared\n");
     else                printf("\nFUNCTIONS: \n");
     while (curr != NULL) {
-        printf("%c(%c)\n", curr->letter, curr->arg);
+        printf("%c(%c):\n", curr->letter, curr->arg);
+        parser_print_tree(curr->expr, 1);
         curr = curr->next;
     }
 }

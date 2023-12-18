@@ -5,13 +5,13 @@
 
 float SetIdentifier(Node *varNode, Node *expression, Identifier **ident, Function **func);
 float RecalIdentifier(char letter, Identifier **ident);
-float RecalFunction(char letter, Function *func);
+float RecalFunction(Node *expr, Identifier **ident, Function **func);
 
 float evaluate(Node *expr, Identifier **ident, Function **func) {
     switch (expr->type) {
         case NodeType_Num:       return expr->number; break;
         case NodeType_Ident:     return RecalIdentifier(expr->letters[0], ident); break;
-        // case NodeType_Func:      return RecalFunction(expr->number, func); break;
+        case NodeType_Func:      return RecalFunction(expr, ident, func); break;
         case NodeType_Abs:       return Abs(evaluate(expr->unary.operand, ident, func)); break;
         case NodeType_Positive:  return +evaluate(expr->unary.operand, ident, func); break;
         case NodeType_Negative:  return -evaluate(expr->unary.operand, ident, func); break;
@@ -34,6 +34,18 @@ float RecalIdentifier(char letter, Identifier **ident) {
     if (curr == NUL) return FLOAT_MAX;
     else
         return curr->value;
+}
+float RecalFunction(Node *func_node, Identifier **ident, Function **func) {
+    Function *curr_func = func_find(*func, func_node->letters[0]);
+    if (curr_func == NUL) return FLOAT_MAX;     // get the stored function
+
+    Identifier *arg_ident = ident_find(*ident, '_');  // get the special function identifier
+    if (arg_ident == NUL) return FLOAT_MAX;
+    arg_ident->value = func_node->number;             // re-assighn it to value in function call back
+
+    ident_node_replace(curr_func->expr, curr_func->arg, arg_ident->letter, arg_ident->value);     // subtitute it into function
+
+    return evaluate(curr_func->expr, ident, func);      // evaluate function
 }
 float SetIdentifier(Node *varNode, Node *expression, Identifier **ident, Function **func) {
     if (varNode->type == NodeType_Ident) {
