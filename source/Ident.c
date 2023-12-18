@@ -6,7 +6,7 @@
 void printFunc(Function **func) {
     Function *curr = *func;
     if (curr == NULL)   printf("\nFunctions not declared\n");
-    else                printf("\nFUNCTIONS: \n");
+    else                printf("\nFUNCTIONS: ");
     while (curr != NULL) {
         printf("%c(%c):\n", curr->letter, curr->arg);
         parser_print_tree(curr->expr, 1);
