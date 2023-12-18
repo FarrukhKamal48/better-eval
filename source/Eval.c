@@ -6,11 +6,11 @@
 #include "Parser.h"
 #include "../lib/clib.h"
 
-float SetIdentifier(Node *identifier, Node *expression, Identifier **ident, Function *func);
+float SetIdentifier(Node *varNode, Node *expression, Identifier **ident, Function **func);
 float RecalIdentifier(char letter, Identifier **ident);
 float RecalFunction(char letter, Function *func);
 
-float evaluate(Node *expr, Identifier **ident, Function *func) {
+float evaluate(Node *expr, Identifier **ident, Function **func) {
     switch (expr->type) {
         case NodeType_Num:       return expr->number; break;
         case NodeType_Ident:     return RecalIdentifier(expr->letters[0], ident); break;
@@ -38,9 +38,9 @@ float RecalIdentifier(char letter, Identifier **ident) {
     else
         return curr->value;
 }
-float SetIdentifier(Node *varNode, Node *expression, Identifier **ident, Function *func) {
+float SetIdentifier(Node *varNode, Node *expression, Identifier **ident, Function **func) {
     if (varNode->type == NodeType_Ident) {
-        int letter = varNode->letters[0]; 
+        char letter = varNode->letters[0]; 
         Identifier *curr = ident_find(*ident, letter);
         
         if (curr == NULL) curr = ident_add(ident, letter, evaluate(expression, ident, func));
@@ -50,14 +50,13 @@ float SetIdentifier(Node *varNode, Node *expression, Identifier **ident, Functio
         return curr->value;
     }
     else if (varNode->type == NodeType_Func) {
-        char name = varNode->letters[0];
+        char letter = varNode->letters[0];
         char arg = varNode->letters[1];
-        Function *curr_func = func_find(func, name);
-        if (curr_func == ((void*)0))
-            curr_func = func_add(func, name, arg, expression);
-        else {
-            curr_func->expr = expression;
-        }
+        Function *curr = func_find(*func, letter);
+        
+        if (curr == NULL) curr = func_add(func, letter, arg, expression);
+        else
+            curr->expr = expression;
     }
     return FLOAT_MAX;
 }

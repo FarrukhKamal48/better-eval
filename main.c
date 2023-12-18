@@ -3,9 +3,10 @@
 #include "lib/clib.h"
 #include "lib/debug.h"
 #include "source/Eval.h"
+#include "source/Ident.h"
 #include "source/Parser.h"
 
-void Calculate(Identifier **ident, Function *func, string expression, unsigned short int debug);
+void Calculate(Identifier **ident, Function **func, string expression, unsigned short int debug);
 
 int main(int argc, char *argv[])
 {
@@ -18,15 +19,16 @@ int main(int argc, char *argv[])
         }
     }
     
-    char help_msg[250] = "\n^,*,/,+,-     -- basic arithmatic operators \n%             -- Modulus operator(remainder) \n=             -- used for variable assighnment (eg. x = 5) \n()            -- parenthes (self explanitory) \n[]            -- Absolute operator ([-5] = 5)\n";
+    char help_msg[300] = "\n^ * / + -     -- basic arithmatic operators \n!             -- Factorial \n%             -- Modulus operator(remainder) \n=             -- used for variables and fucntions (eg. x = 5, f(x) = 5x) \n()            -- parenthes (self explanitory) \n[]            -- Absolute operator ([-5] = 5)\n";
     if (flags[2][0]) {      // print help message
         printf("%s%s", colors[5], help_msg);
         if (argc == 2) return 0;
     }
 
     Identifier *ident = NULL;       // setup identifier list
-    Function func;          // setup funciton list
-    func_init(&func);
+    ident_add(&ident, '_', 0);      // used to store function arguments
+    
+    Function *func = NULL;          // setup funciton list
     
     if (flags[0][0]) {                                      // if expression has been provided
         string expression = strMake(argv[flags[0][1]]);     // get the expression
@@ -42,16 +44,30 @@ int main(int argc, char *argv[])
             Fgets(expr, 100);                           // get the expression
             printf("  ");       // padding
             
-            if (expr[0] == '\\' && expr[1] == 'q')      // quit
-                break;
-            if (expr[0] == '\\' && expr[1] == 'h') {    // print help
-                printf("%s%s", colors[5], help_msg);
-                continue;
-            }
-            if (expr[0] == '\\' && expr[1] == 'd') {    // toggle debug
-                flags[1][0] = !flags[1][0];
-                if (!flags[1][0]) printf("\n");
-                continue;
+            if (expr[0] == '\\') {
+                if (expr[1] == 'q')      // quit
+                    break;
+                if (expr[1] == 'h') {    // print help
+                    printf("%s%s", colors[5], help_msg);
+                    continue;
+                }
+                if (expr[1] == 'd') {    // toggle debug
+                    flags[1][0] = !flags[1][0];
+                    if (!flags[1][0]) printf("\n");
+                    continue;
+                }
+                if (expr[1] == 'v') {    // print all set variables
+                    printf("%s", colors[5]);
+                    printIdent(&ident);
+                    printf("%s", colors[0]);
+                    continue;
+                }
+                if (expr[1] == 'f') {    // print all declared functions 
+                    printf("%s", colors[5]);
+                    printFunc(&func);
+                    printf("%s", colors[0]);
+                    continue;
+                }
             }
             
             Calculate(&ident, &func, strMake(expr), flags[1][0]);  // start the calculation
@@ -62,7 +78,7 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-void Calculate(Identifier **ident, Function *func, string expression, unsigned short int debug) {
+void Calculate(Identifier **ident, Function **func, string expression, unsigned short int debug) {
     Parser parser;
     parser_init(&parser, expression);
     Node *tree = parser_parse_expression(&parser, Precedence_MIN);

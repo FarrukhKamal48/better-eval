@@ -16,11 +16,13 @@ typedef struct Function {
     struct Function *next;
 } Function;
 
+void printFunc(Function **func);
 void func_init(Function *func);
+Function *func_add(Function **func, char letter, char arg, Node *expr);
 Function *func_find(Function *func, char letter);
-Function *func_add(Function *func, char letter, char arg, Node *expr);
 
+void printIdent(Identifier **ident);
 Identifier *ident_add(Identifier **ident, char letter, float value);
-Identifier *ident_find(Identifier *ident ,char letter);
+Identifier *ident_find(Identifier *ident , char letter);
 
 #endif

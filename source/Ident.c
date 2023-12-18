@@ -2,19 +2,25 @@
 #include <stdio.h>
 #include "Ident.h"
 
+void printFunc(Function **func) {
+    Function *curr = *func;
+    if (curr == NULL)   printf("\nFunctions not declared\n");
+    else                printf("\nFUNCTIONS: \n");
+    while (curr != NULL) {
+        printf("%c(%c)\n", curr->letter, curr->arg);
+        curr = curr->next;
+    }
+}
 void func_init(Function *func) {
     func->letter = '\0';
     func->next = NULL;
 }
 Function *func_find(Function *func, char letter) {
-    Function *ret;
-    while (func != NULL) {
-        if (func->letter == letter || func->letter == '\0') {
-            ret = func;
-            ret->letter = letter;
+    Function *ret = func;
+    while (ret != NULL) {
+        if (ret->letter == letter)
             return ret;
-        }
-        func = func->next;
+        ret = ret->next;
     }
     return NULL;
 }
@@ -26,19 +32,30 @@ Function *func_new(char letter, char arg, Node *expr) {
     ret->next = NULL;
     return ret;
 }
-Function *func_add(Function *func, char letter, char arg, Node *expr) {
-    if (func->letter == '\0') {
-        func = func_new(letter, arg, expr);
-        return func;
+Function *func_add(Function **func, char letter, char arg, Node *expr) {
+    Function *new = NULL;
+    if (*func == NULL) {
+        new = func_new(letter, arg, expr);
+        *func = new;
     }
-    Function *new_func = func_new(letter, arg, expr); 
-    new_func->next = func;
-    func = new_func;
-    
-    return new_func;
+    else {
+        new = func_new(letter, arg, expr);
+        new->next = *func;
+        *func = new;
+    }
+    return new;
 }
 
 
+void printIdent(Identifier **ident) {
+    Identifier *curr = *ident;
+    if (curr == NULL)   printf("\nVaraibles not set\n");
+    else                printf("\nVARIABLES: \n");
+    while (curr != NULL) {
+        printf("%c = %f\n", curr->letter, curr->value);
+        curr = curr->next;
+    }
+}
 Identifier *ident_find(Identifier *ident, char letter) {
     Identifier *ret = ident;
     while (ret != NULL) {
