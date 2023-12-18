@@ -20,8 +20,7 @@ void func_init(Function *func);
 Function *func_find(Function *func, char letter);
 Function *func_add(Function *func, char letter, char arg, Node *expr);
 
-void ident_init(Identifier *ident);
-Identifier *ident_add(Identifier *ident, char letter, float value);
+Identifier *ident_add(Identifier **ident, char letter, float value);
 Identifier *ident_find(Identifier *ident ,char letter);
 
 #endif

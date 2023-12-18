@@ -5,7 +5,7 @@
 #include "source/Eval.h"
 #include "source/Parser.h"
 
-void Calculate(Identifier *ident, Function *func, string expression, unsigned short int debug);
+void Calculate(Identifier **ident, Function *func, string expression, unsigned short int debug);
 
 int main(int argc, char *argv[])
 {
@@ -24,8 +24,7 @@ int main(int argc, char *argv[])
         if (argc == 2) return 0;
     }
 
-    Identifier ident;       // setup identifier list
-    ident_init(&ident);
+    Identifier *ident = NULL;       // setup identifier list
     Function func;          // setup funciton list
     func_init(&func);
     
@@ -63,7 +62,7 @@ int main(int argc, char *argv[])
     return 0;
 }
 
-void Calculate(Identifier *ident, Function *func, string expression, unsigned short int debug) {
+void Calculate(Identifier **ident, Function *func, string expression, unsigned short int debug) {
     Parser parser;
     parser_init(&parser, expression);
     Node *tree = parser_parse_expression(&parser, Precedence_MIN);

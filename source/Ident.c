@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <stdio.h>
 #include "Ident.h"
 
 void func_init(Function *func) {
@@ -38,10 +39,16 @@ Function *func_add(Function *func, char letter, char arg, Node *expr) {
 }
 
 
-void ident_init(Identifier *ident) {
-    ident->letter = '\0';
-    ident->next = NULL;
+Identifier *ident_find(Identifier *ident, char letter) {
+    Identifier *ret = ident;
+    while (ret != NULL) {
+        if (ret->letter == letter)
+            return ret;
+        ret = ret->next;
+    }
+    return NULL;
 }
+
 Identifier *ident_new(char letter, float value) {
     Identifier *ret = malloc(sizeof(Identifier));
     ret->letter = letter;
@@ -50,25 +57,17 @@ Identifier *ident_new(char letter, float value) {
     return ret;
 }
 
-Identifier *ident_find(Identifier *ident, char letter) {
-    Identifier *ret;
-    for (; ident != NULL; ident = ident->next) {
-        if (ident->letter == letter || ident->letter == '\0') {
-            ret = ident;
-            ret->letter = letter;
-            return ret;
-        }
-    };
-    return NULL;
-}
-
-Identifier *ident_add(Identifier *ident, char letter, float value) {
-    if (ident->letter == '\0') {
-        ident = ident_new(letter, value);
-        return ident;
+Identifier *ident_add(Identifier **ident, char letter, float value) {
+    Identifier *new = NULL;
+    if (*ident == NULL) {
+        new = ident_new(letter, value);
+        *ident = new;
     }
-    for (; ident->next != NULL; ident = ident->next);
-    ident->next = ident_new(letter, value);
-    return ident->next;
+    else {
+        new = ident_new(letter, value);
+        new->next = *ident;
+        *ident = new;
+    }
+    return new;
 }
 

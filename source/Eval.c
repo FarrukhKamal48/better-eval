@@ -1,3 +1,4 @@
+#include <stdlib.h>
 #include <math.h>
 
 #include "Eval.h"
@@ -5,11 +6,11 @@
 #include "Parser.h"
 #include "../lib/clib.h"
 
-float SetIdentifier(Node *identifier, Node *expression, Identifier *ident, Function *func);
-float RecalIdentifier(char letter, Identifier *ident);
+float SetIdentifier(Node *identifier, Node *expression, Identifier **ident, Function *func);
+float RecalIdentifier(char letter, Identifier **ident);
 float RecalFunction(char letter, Function *func);
 
-float evaluate(Node *expr, Identifier *ident, Function *func) {
+float evaluate(Node *expr, Identifier **ident, Function *func) {
     switch (expr->type) {
         case NodeType_Num:       return expr->number; break;
         case NodeType_Ident:     return RecalIdentifier(expr->letters[0], ident); break;
@@ -31,23 +32,22 @@ float evaluate(Node *expr, Identifier *ident, Function *func) {
 }
 
 
-float RecalIdentifier(char letter, Identifier *ident) {
-    Identifier *curr_Ident = ident_find(ident, letter);
-    if (curr_Ident == ((void*)0))
-        return FLOAT_MAX;
+float RecalIdentifier(char letter, Identifier **ident) {
+    Identifier *curr = ident_find(*ident, letter);
+    if (curr == NULL) return FLOAT_MAX;
     else
-        return curr_Ident->value;
+        return curr->value;
 }
-float SetIdentifier(Node *varNode, Node *expression, Identifier *ident, Function *func) {
+float SetIdentifier(Node *varNode, Node *expression, Identifier **ident, Function *func) {
     if (varNode->type == NodeType_Ident) {
-        int ident_letter = varNode->letters[0]; 
-        Identifier *curr_Ident = ident_find(ident, ident_letter);
-        if (curr_Ident == ((void*)0))
-            curr_Ident = ident_add(ident, ident_letter, evaluate(expression, ident, func));
-        else
-            curr_Ident->value = evaluate(expression, ident, func);
+        int letter = varNode->letters[0]; 
+        Identifier *curr = ident_find(*ident, letter);
         
-        return curr_Ident->value;
+        if (curr == NULL) curr = ident_add(ident, letter, evaluate(expression, ident, func));
+        else
+            curr->value = evaluate(expression, ident, func);
+        
+        return curr->value;
     }
     else if (varNode->type == NodeType_Func) {
         char name = varNode->letters[0];
