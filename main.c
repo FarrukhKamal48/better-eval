@@ -3,8 +3,6 @@
 #include "lib/clib.h"
 #include "lib/debug.h"
 #include "source/Eval.h"
-#include "source/Ident.h"
-#include "source/Parser.h"
 
 void Calculate(Identifier **ident, Function **func, string expression, unsigned short int debug);
 
@@ -84,7 +82,8 @@ void Calculate(Identifier **ident, Function **func, string expression, unsigned 
     Node *tree = parser_parse_expression(&parser, Precedence_MIN);
     float answer = evaluate(tree, ident, func);
     
-    if (answer >= FLOAT_MAX) printf("%s%sERROR\n", colors[1], colors[3]);
+    if (answer >= INF)       printf("");
+    else if (answer >= FLOAT_MAX) printf("%s%sERROR\n", colors[1], colors[3]);
     else
         printf("= %s%f\n", colors[6], answer);
 

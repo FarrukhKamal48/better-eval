@@ -1,9 +1,6 @@
-#include <stdlib.h>
 #include <math.h>
 
 #include "Eval.h"
-#include "Ident.h"
-#include "Parser.h"
 #include "../lib/clib.h"
 
 float SetIdentifier(Node *varNode, Node *expression, Identifier **ident, Function **func);
@@ -34,7 +31,7 @@ float evaluate(Node *expr, Identifier **ident, Function **func) {
 
 float RecalIdentifier(char letter, Identifier **ident) {
     Identifier *curr = ident_find(*ident, letter);
-    if (curr == NULL) return FLOAT_MAX;
+    if (curr == NUL) return FLOAT_MAX;
     else
         return curr->value;
 }
@@ -43,7 +40,7 @@ float SetIdentifier(Node *varNode, Node *expression, Identifier **ident, Functio
         char letter = varNode->letters[0]; 
         Identifier *curr = ident_find(*ident, letter);
         
-        if (curr == NULL) curr = ident_add(ident, letter, evaluate(expression, ident, func));
+        if (curr == NUL) curr = ident_add(ident, letter, evaluate(expression, ident, func));
         else
             curr->value = evaluate(expression, ident, func);
         
@@ -54,10 +51,10 @@ float SetIdentifier(Node *varNode, Node *expression, Identifier **ident, Functio
         char arg = varNode->letters[1];
         Function *curr = func_find(*func, letter);
         
-        if (curr == NULL) curr = func_add(func, letter, arg, expression);
+        if (curr == NUL) curr = func_add(func, letter, arg, expression);
         else
             curr->expr = expression;
     }
-    return FLOAT_MAX;
+    return INF;
 }
 

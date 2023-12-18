@@ -4,6 +4,8 @@
 #include "../source/Parser.h"
 
 #define FLOAT_MAX 340282346638528859811704183484516925440.000000
+#define INF (__builtin_inff ())
+#define NUL ((void*)0)
 
 static char colors[13][8] = {
     "\033[0;0m",     // 0 normal
