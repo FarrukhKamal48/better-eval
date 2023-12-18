@@ -2,6 +2,7 @@
 
 #include "Eval.h"
 #include "../lib/clib.h"
+#include "Ident.h"
 
 float SetIdentifier(Node *varNode, Node *expression, Identifier **ident, Function **func);
 float RecalIdentifier(char letter, Identifier **ident);
@@ -41,9 +42,18 @@ float RecalFunction(Node *func_node, Identifier **ident, Function **func) {
 
     Identifier *arg_ident = ident_find(*ident, '_');  // get the special function identifier
     if (arg_ident == NUL) return FLOAT_MAX;
-    arg_ident->value = func_node->number;             // re-assighn it to value in function call back
-
-    ident_node_replace(curr_func->expr, curr_func->arg, arg_ident->letter, arg_ident->value);     // subtitute it into function
+    
+    if (func_node->letters[1]=='\0')                  // get argument as explicitly typed by user (eg. f(20))
+        arg_ident->value = func_node->number;
+    else if (func_node->letters[1] != curr_func->arg) {     // if user enters previously defined variable
+        Identifier *new = ident_find(*ident, func_node->letters[1]);
+        if (new == NUL) arg_ident->value = FLOAT_MAX;        // weirdly enough, this somehow adds support for composite functions
+        else
+            arg_ident->value = new->value;                  
+    }
+    
+    // subtitute value into function tree
+    ident_node_replace(curr_func->expr, curr_func->arg, arg_ident->letter, arg_ident->value);
 
     return evaluate(curr_func->expr, ident, func);      // evaluate function
 }
