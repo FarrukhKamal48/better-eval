@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
         char expr[100];
         printf("\n");
         while (1) {
-            if (flags[1][0]) printf("\n");
+            if (flags[1][0]) printf("\n");      // go to new line if debug toggled
             printf("%s❯ %s%s", colors[6], colors[1], colors[4]);   // print sylish prompt
             Fgets(expr, 100);                           // get the expression
             printf("  ");       // padding
