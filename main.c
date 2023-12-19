@@ -5,6 +5,14 @@
 #include "source/Eval.h"
 
 void Calculate(Identifier **ident, Function **func, string expression, unsigned short int debug);
+void printHelp(char msg[19][80]) {
+    int i = 0;
+    printf("\n%s", colors[5]);
+    while (msg[i][0] != '\0') {
+        printf("%s\n", msg[i]);
+        i++;
+    }
+}
 
 int main(int argc, char *argv[])
 {
@@ -17,9 +25,30 @@ int main(int argc, char *argv[])
         }
     }
     
-    char help_msg[300] = "\n^ * / + -     -- basic arithmatic operators \n!             -- Factorial \n%             -- Modulus operator(remainder) \n=             -- used for variables and fucntions (eg. x = 5, f(x) = 5x) \n()            -- parenthes (self explanitory) \n[]            -- Absolute operator ([-5] = 5)\n";
+    char help_msg[19][80] = {
+        "Flags:",
+        "d       -- print the expression tree",
+        "h       -- print this help message",
+        " ",
+        "Flags (prompt mode):",
+        "\\q      -- quit",
+        "\\h      -- print this help message",
+        "\\d      -- toggle print expression tree",
+        "\\v      -- print all set variables, (the '_' variable is for function arguments)",
+        "\\f      -- print all set functions",
+        " ",
+        "Operators:",
+        "^ * / + -     -- basic arithmatic operators",
+        "!             -- Factorial",
+        "%             -- Modulus operator(remainder)",
+        "=             -- used for variables and fucntions (eg. x = 5, f(x) = 5x)",
+        "()            -- parenthes (self explanitory)",
+        "[]            -- Absolute operator ([-5] = 5)",
+        "\0",
+    };
+    
     if (flags[2][0]) {      // print help message
-        printf("%s%s", colors[5], help_msg);
+        printHelp(help_msg);
         if (argc == 2) return 0;
     }
 
@@ -46,7 +75,8 @@ int main(int argc, char *argv[])
                 if (expr[1] == 'q')      // quit
                     break;
                 if (expr[1] == 'h') {    // print help
-                    printf("%s%s", colors[5], help_msg);
+                    printHelp(help_msg);
+                    printf("\n");
                     continue;
                 }
                 if (expr[1] == 'd') {    // toggle debug
