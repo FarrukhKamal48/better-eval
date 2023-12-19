@@ -112,7 +112,7 @@ void Calculate(Identifier **ident, Function **func, string expression, unsigned 
     Node *tree = parser_parse_expression(&parser, Precedence_MIN);
     float answer = evaluate(tree, ident, func);
     
-    if (answer >= INF)       printf("");
+    if (answer >= INF)       printf("\n");
     else if (answer >= FLOAT_MAX) printf("%s%sERROR\n", colors[1], colors[3]);
     else
         printf("= %s%f\n", colors[6], answer);
