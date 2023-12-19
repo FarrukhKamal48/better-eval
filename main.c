@@ -58,7 +58,7 @@ int main(int argc, char *argv[])
     Function *func = NULL;          // setup funciton list
     
     if (flags[0][0]) {                                      // if expression has been provided
-        string expression = strMake(argv[flags[0][1]]);     // get the expression
+        string expression = strMake(argv[flags[0][1]]);     // get the expressio
         printf("  %s%s%s", colors[1], colors[4], expression.str);
         Calculate(&ident, &func, expression, flags[1][0]);         // start calculation (while also checking for debug flag)
     }
@@ -66,10 +66,8 @@ int main(int argc, char *argv[])
         char expr[100];
         printf("\n");
         while (1) {
-            if (flags[1][0]) printf("\n");      // go to new line if debug toggled
             printf("%s❯ %s%s", colors[6], colors[1], colors[4]);   // print sylish prompt
             Fgets(expr, 100);                           // get the expression
-            printf("  ");       // padding
             
             if (expr[0] == '\\') {
                 if (expr[1] == 'q')      // quit
@@ -81,7 +79,7 @@ int main(int argc, char *argv[])
                 }
                 if (expr[1] == 'd') {    // toggle debug
                     flags[1][0] = !flags[1][0];
-                    if (!flags[1][0]) printf("\n");
+                    // if (!flags[1][0]) printf("\n");
                     continue;
                 }
                 if (expr[1] == 'v') {    // print all set variables
@@ -112,11 +110,14 @@ void Calculate(Identifier **ident, Function **func, string expression, unsigned 
     Node *tree = parser_parse_expression(&parser, Precedence_MIN);
     float answer = evaluate(tree, ident, func);
     
-    if (answer >= INF)       printf("\n");
-    else if (answer >= FLOAT_MAX) printf("%s%sERROR\n", colors[1], colors[3]);
+    if (answer >= INF)       printf("");
+    else if (answer >= FLOAT_MAX) printf("  %s%sERROR\n", colors[1], colors[3]);
     else
-        printf("= %s%f\n", colors[6], answer);
+        printf("  = %s%f\n", colors[6], answer);
 
-    if (debug) parser_print_tree(tree, 1);
+    if (debug) {
+        parser_print_tree(tree, 1);
+        printf("\n");
+    }
     Dealloc_Tree(tree);
 }

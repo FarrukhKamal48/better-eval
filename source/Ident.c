@@ -13,10 +13,7 @@ void printFunc(Function **func) {
         parser_print_tree(curr->expr, 2);
         curr = curr->next;
     }
-}
-void func_init(Function *func) {
-    func->letter = '\0';
-    func->next = NULL;
+    printf("\n");
 }
 Function *func_find(Function *func, char letter) {
     Function *ret = func;
@@ -58,6 +55,7 @@ void printIdent(Identifier **ident) {
         printf("%c = %f\n", curr->letter, curr->value);
         curr = curr->next;
     }
+    printf("\n");
 }
 Identifier *ident_find(Identifier *ident, char letter) {
     Identifier *ret = ident;

@@ -13,11 +13,11 @@ typedef struct Function {
     char letter;
     char arg;
     Node *expr;
+    Node *argxpr;
     struct Function *next;
 } Function;
 
 void printFunc(Function **func);
-void func_init(Function *func);
 Function *func_add(Function **func, char letter, char arg, Node *expr);
 Function *func_find(Function *func, char letter);
 
