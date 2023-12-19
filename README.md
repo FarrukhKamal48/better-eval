@@ -1,19 +1,16 @@
 # A Math Expression Parser
 
-Evaluates math expressions with support for `functions` and `variables`.
+A fork of [math-expr-evaluator](https://github.com/PixelRifts/math-expr-evaluator) with support for `functions` and `variables`.
 
 # Building
 
 Only built/tested on Linux.
 
-```
-run `make`
-execulabe path is `build/Eval`
-```
+- run `make`
+- execulabe path is `build/Eval`
 
 # Running
 
-If ran without arguments, it will prompt for math expressions (repeatedly untill you type `\q` for quit). While in this prompt, type `\h` for help.
-
-You can also run it by providing a math expression:
-`build/Eval "<math-expression>"`
+Two Ways: 
+- Run without providing math expression, it will prompt for math expressions. Type `\h` for help.
+- Run by providing a math expression.
