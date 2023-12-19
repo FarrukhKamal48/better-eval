@@ -54,5 +54,6 @@ typedef struct Parser {
 void parser_init(Parser *parser, string expression);
 Node *parser_parse_expression(Parser *parser, Precedence prev_operator_prec);
 void ident_node_replace(Node *expr, char prev_letter, char new_letter, float new_number);
+Node *ident_node_find(Node *expr);
 
 #endif

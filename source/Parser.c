@@ -166,3 +166,24 @@ void ident_node_replace(Node *expr, char prev_letter, char new_letter, float new
     }
     return;
 }
+Node *ident_node_find(Node *expr) {
+    if (expr->type == NodeType_Num || expr->type == NodeType_ERROR || expr->type == NodeType_Func)
+        return NUL;
+    else if (expr->type == NodeType_Ident) {
+        return expr;
+    }
+    else if (expr->type == NodeType_Positive || expr->type == NodeType_Negative || 
+        expr->type == NodeType_Abs || expr->type == NodeType_Factorial) {
+        return ident_node_find(expr->unary.operand);
+    }
+    else if (expr->type == NodeType_Pow || expr->type == NodeType_Div || 
+        expr->type == NodeType_Mul || expr->type == NodeType_Mod || expr->type == NodeType_Add || 
+        expr->type == NodeType_Sub || expr->type == NodeType_Equal) {
+        Node *left = ident_node_find(expr->binary.left);
+        Node *right = ident_node_find(expr->binary.right);
+        if (left != NUL) return left;
+        else if (right != NUL) return right;
+        else return NUL;
+    }
+    return NUL;
+}
