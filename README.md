@@ -6,7 +6,9 @@ A fork of [math-expr-evaluator](https://github.com/PixelRifts/math-expr-evaluato
 
 Only built/tested on Linux.
 
-- run `make`
+NOTE: This is built using cmake
+
+- run `./build.sh`
 - execulabe path is `build/Eval`
 
 # Running
