@@ -51,9 +51,6 @@ float RecalFunction(Node *func_node, Identifier **ident, Function **func) {
         else
             arg_ident->value = new->value;                  
     }
-    
-    // subtitute value into function tree
-    ident_node_replace(curr_func->expr, curr_func->arg, arg_ident->letter, arg_ident->value);
 
     return evaluate(curr_func->expr, ident, func);      // evaluate function
 }
@@ -76,6 +73,9 @@ float SetIdentifier(Node *varNode, Node *expression, Identifier **ident, Functio
         if (curr == NUL) curr = func_add(func, letter, arg, expression);
         else
             curr->expr = expression;
+        
+        Identifier *arg_ident = ident_find(*ident, '_');
+        ident_node_replace(curr->expr, curr->arg, arg_ident->letter, arg_ident->value);
     }
     return INF;
 }
